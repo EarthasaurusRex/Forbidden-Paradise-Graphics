@@ -7,6 +7,8 @@ class LilyUrban(Character):
         self.image_path = "img\\pictures\\characters\\lily_urban"
 
     def build_layers(self):
+        self.layers = {}
+        
         # region Enemy
         if self.grabberConfig == "human":
             self.modifyLayer(0, 0)

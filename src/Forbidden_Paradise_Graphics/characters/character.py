@@ -1,4 +1,5 @@
 import os
+import json
 from enum import Enum
 from PIL import Image
 from typing import Callable
@@ -102,22 +103,22 @@ class Character:
     """
 
     def __init__(self):
-        self.image_path = None
+        self.image_path = ""
         self.layers = {}
 
-        self.grabberConfig = Grabber.NONE
+        self.grabberConfig: str = Grabber.NONE.value
 
-        self.mouthIndex = 1
-        self.eyesIndex = 1
-        self.eyebrowsIndex = 1
-        self.hasFaceShadow = 0
-        self.hasAshen = 0
-        self.hasSweat = 0
-        self.hasExtraSweat = 0
-        self.hasAnger = 0
-        self.hasBlush = 0
-        self.hasExtraBlush = 0
-        self.hasDrool = 0
+        self.mouthIndex = True # 1
+        self.eyesIndex = True # 1
+        self.eyebrowsIndex = True # 1
+        self.hasFaceShadow = False # 0
+        self.hasAshen = False # 0
+        self.hasSweat = False # 0
+        self.hasExtraSweat = False # 0
+        self.hasAnger = False # 0
+        self.hasBlush = False # 0
+        self.hasExtraBlush = False # 0
+        self.hasDrool = False # 0
 
         # Character configs
         self.hasHeadwear = False
@@ -151,7 +152,7 @@ class Character:
 
         self.__armsBehindBackPose: Callable[[], bool] = lambda: False
         self.__legsAreInvisible: Callable[[], bool] = lambda: False
-        self.__legsAreTogether: Callable[[], bool] = lambda: False
+        self.legsAreTogether: Callable[[], bool] = lambda: False
         self.legsWebLikePose: Callable[[], bool] = lambda: False
         self.__isGrounded: Callable[[], bool] = lambda: False
         self.__vibeIntensity: Callable[[], int] = lambda: 0
@@ -248,15 +249,16 @@ class Character:
     @legsMaterial.setter
     def legsMaterial(self, value: Legs):
         self.__legsMaterial = lambda: value.value
+        self.legsAreTogether = lambda: bool(self.legsMaterial)
         self.legsWebLikePose = lambda: self.legsMaterial() in ["tape", "web"]
 
-    @property
-    def legsAreTogether(self) -> Callable[[], bool]:
-        return self.__legsAreTogether
+    # @property
+    # def legsAreTogether(self) -> Callable[[], bool]:
+    #     return self.__legsAreTogether
 
-    @legsAreTogether.setter
-    def legsAreTogether(self, value: bool):
-        self.__legsAreTogether = lambda: value
+    # @legsAreTogether.setter
+    # def legsAreTogether(self, value: bool):
+    #     self.__legsAreTogether = lambda: value
 
     @property
     def legsAreInvisible(self) -> Callable[[], bool]:
@@ -304,13 +306,22 @@ class Character:
         self.__vibeIntensity = lambda: value
     # endregion
 
-    def sortLayers(self):
+    def get_used_properties(self) -> list[str]:
+        """
+        Returns a list of properties used by this character,
+        based on the centralized configuration.
+        """
+        with open("src/Forbidden_Paradise_Graphics/characters/character_properties.json", "r") as f:
+            properties = json.load(f)
+        return properties.get(self.__class__.__name__, [])
+
+    def sort_layers(self):
         # Sort layers by index
         self.layers = dict(sorted(self.layers.items()))
 
         # Get rid of empty layers
         self.layers = {k: v for k, v in self.layers.items() if v}
-
+    
     def modifyLayer(self, layer_index, new_value):
         if new_value < 0:
             self.layers[layer_index] = ""
@@ -318,7 +329,7 @@ class Character:
             self.layers[layer_index] = os.path.join(
                 self.image_path, f"{layer_index}_{new_value}.png")
 
-        self.sortLayers()
+        self.sort_layers()
 
     def render(self):
         if not self.layers:
