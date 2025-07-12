@@ -144,14 +144,15 @@ class CharacterEditor:
             # --- Define a generic setter that re-renders ---
             def create_setter(p_name, var, is_callable=False, is_enum=False, enum_type=None):
                 def setter(*args):
+                    print(p_name)
                     new_value = var.get()
                     print(new_value)
                     if is_enum and enum_type:
                         setattr(self.active_character, p_name, enum_type(new_value))
-                    elif is_callable:
-                        # For callable properties (like isGrounded), we need to wrap the new value in a lambda
-                        # to maintain the callable interface of the property.
-                        setattr(self.active_character, p_name, lambda: new_value)
+                    # elif is_callable:
+                    #     # For callable properties (like isGrounded), we need to wrap the new value in a lambda
+                    #     # to maintain the callable interface of the property.
+                    #     setattr(self.active_character, p_name, lambda: new_value)
                     else:
                         setattr(self.active_character, p_name, new_value)
                     self.render_character()
@@ -192,7 +193,8 @@ class CharacterEditor:
     def render_character(self):
         if not self.active_character:
             return
-        print(self.active_character.legsAreTogether())
+        print(self.active_character.legsAreInvisible())
+        # print("legs", self.active_character.legsAreTogether())
         self.active_character.build_layers()
         self.original_image = self.active_character.render()
         self.update_image_display()

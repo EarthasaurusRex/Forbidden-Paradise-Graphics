@@ -152,7 +152,7 @@ class Character:
 
         self.__armsBehindBackPose: Callable[[], bool] = lambda: False
         self.__legsAreInvisible: Callable[[], bool] = lambda: False
-        self.legsAreTogether: Callable[[], bool] = lambda: False
+        self.__legsAreTogether: Callable[[], bool] = lambda: False
         self.legsWebLikePose: Callable[[], bool] = lambda: False
         self.__isGrounded: Callable[[], bool] = lambda: False
         self.__vibeIntensity: Callable[[], int] = lambda: 0
@@ -249,16 +249,16 @@ class Character:
     @legsMaterial.setter
     def legsMaterial(self, value: Legs):
         self.__legsMaterial = lambda: value.value
-        self.legsAreTogether = lambda: bool(self.legsMaterial)
+        self.__legsAreTogether = lambda: bool(self.legsMaterial)
         self.legsWebLikePose = lambda: self.legsMaterial() in ["tape", "web"]
 
-    # @property
-    # def legsAreTogether(self) -> Callable[[], bool]:
-    #     return self.__legsAreTogether
+    @property
+    def legsAreTogether(self) -> Callable[[], bool]:
+        return self.__legsAreTogether
 
-    # @legsAreTogether.setter
-    # def legsAreTogether(self, value: bool):
-    #     self.__legsAreTogether = lambda: value
+    @legsAreTogether.setter
+    def legsAreTogether(self, value: bool):
+        self.__legsAreTogether = lambda: value
 
     @property
     def legsAreInvisible(self) -> Callable[[], bool]:
