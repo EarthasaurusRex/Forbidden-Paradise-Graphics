@@ -1,5 +1,4 @@
-import os
-from . import character_renderer
+from . import character_editor
 
 def main():
     # Prompt user for what to render
@@ -11,7 +10,7 @@ def main():
         )
         match choice:
             case '1':
-                character_renderer.launch_character_editor()
+                character_editor.launch_character_editor()
                 break
             case '2':
                 print("CGs are not yet implemented.")
