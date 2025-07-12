@@ -2,6 +2,7 @@ import os
 import tkinter as tk
 from tkinter import ttk, filedialog
 from PIL import Image, ImageTk
+import json
 from .characters import LilySports, LilyUrban
 from .characters.character import Arms, Collar, CrotchRope, Eyes, Grabber, Intimate, Legs, Mittens, Mouth, Mummified, Nipples
 
@@ -53,7 +54,7 @@ class CharacterEditor:
         left_panel.grid(row=0, column=0, sticky="ns", padx=(0, 10))
 
         # Center panel for image display
-        self.image_panel = ttk.Label(main_frame, background="#333333")
+        self.image_panel = tk.Canvas(main_frame, background="#333333", highlightthickness=0)
         self.image_panel.grid(row=0, column=1, sticky="nsew")
 
         # Right panel for controls
@@ -126,11 +127,20 @@ class CharacterEditor:
 
         canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
         canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.bind_all("<MouseWheel>", lambda event: canvas.yview_scroll(int(-1*(event.delta/120)), "units"))
 
         # --- Populate the scrollable frame with property editors ---
-        properties = self.active_character.get_used_properties()
+        with open("src/Forbidden_Paradise_Graphics/property_order.json", "r") as f:
+            config = json.load(f)
+        property_order = config.get("DEFAULT_PROPERTY_ORDER", [])
+        active_character_properties = self.active_character.get_used_properties()
 
-        for prop_name in properties:
+
+        for prop_name in property_order:
+            # Check if the property exists in the active character
+            if not prop_name in active_character_properties:
+                continue
+
             prop_frame = ttk.Frame(scrollable_frame)
             prop_frame.pack(fill="x", pady=2, padx=5)
 
@@ -138,24 +148,36 @@ class CharacterEditor:
             label.pack(side="left")
 
             prop_attr = getattr(self.active_character, prop_name)
-            is_callable = callable(prop_attr)
-            actual_value = prop_attr() if is_callable else prop_attr
+            actual_value = prop_attr() if callable(prop_attr) else prop_attr
 
             # --- Define a generic setter that re-renders ---
-            def create_setter(p_name, var, is_callable=False, is_enum=False, enum_type=None):
+            def create_setter(p_name, var, is_enum=False, enum_type=None, min_val=None, max_val=None):
                 def setter(*args):
-                    print(p_name)
                     new_value = var.get()
-                    print(new_value)
+                    if isinstance(var, tk.IntVar):
+                        try:
+                            new_value = int(new_value)
+                            if min_val is not None and new_value < min_val:
+                                new_value = min_val
+                            if max_val is not None and new_value > max_val:
+                                new_value = max_val
+                            var.set(new_value) # Update the Tkinter variable with the clamped value
+                        except ValueError:
+                            # If input is not a valid integer, revert to the last valid value
+                            current_char_value = getattr(self.active_character, p_name)
+                            actual_char_value = current_char_value() if callable(current_char_value) else current_char_value
+                            if isinstance(actual_char_value, int):
+                                var.set(actual_char_value)
+                            else:
+                                raise ValueError(f"Last value was not an integer ({type(actual_char_value)})")
+                            return # Do not proceed with setting on character or re-rendering
+
                     if is_enum and enum_type:
                         setattr(self.active_character, p_name, enum_type(new_value))
-                    # elif is_callable:
-                    #     # For callable properties (like isGrounded), we need to wrap the new value in a lambda
-                    #     # to maintain the callable interface of the property.
-                    #     setattr(self.active_character, p_name, lambda: new_value)
                     else:
                         setattr(self.active_character, p_name, new_value)
                     self.render_character()
+                    self.refresh_property_values()
                 return setter
 
             # --- Create editor widgets and store their variables ---
@@ -170,31 +192,67 @@ class CharacterEditor:
             elif isinstance(actual_value, bool):
                 var = tk.BooleanVar(value=actual_value)
                 self.property_vars[prop_name] = var
-                setter_callback = create_setter(prop_name, var, is_callable)
+                setter_callback = create_setter(prop_name, var)
                 check = ttk.Checkbutton(prop_frame, variable=var, command=setter_callback)
                 check.pack(side="left")
             elif isinstance(actual_value, int):
                 var = tk.IntVar(value=actual_value)
                 self.property_vars[prop_name] = var
+                
+                min_val = getattr(self.active_character.__class__, f"MIN_{prop_name.upper()}", None)
+                max_val = getattr(self.active_character.__class__, f"MAX_{prop_name.upper()}", None)
+
                 entry = ttk.Entry(prop_frame, textvariable=var)
-                entry.bind("<FocusOut>", create_setter(prop_name, var, is_callable))
+                setter_callback = create_setter(prop_name, var, min_val=min_val, max_val=max_val)
+                entry.bind("<FocusOut>", setter_callback)
+                entry.bind("<KeyRelease>", setter_callback)
                 entry.pack(side="left")
+
+                if min_val is not None and max_val is not None:
+                    range_label = ttk.Label(prop_frame, text=f" (Min: {min_val}, Max: {max_val})")
+                    range_label.pack(side="left")
             elif isinstance(actual_value, str):
                 var = tk.StringVar(value=actual_value)
                 self.property_vars[prop_name] = var
                 entry = ttk.Entry(prop_frame, textvariable=var)
-                entry.bind("<FocusOut>", create_setter(prop_name, var))
+                setter_callback = create_setter(prop_name, var)
+                entry.bind("<FocusOut>", setter_callback)
+                entry.bind("<KeyRelease>", setter_callback)
                 entry.pack(side="left")
 
         # --- Pack the canvas and scrollbar ---
         canvas.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
 
+    def refresh_property_values(self):
+        if not self.active_character:
+            return
+
+        for prop_name, var in self.property_vars.items():
+            prop_attr = getattr(self.active_character, prop_name)
+            actual_value = prop_attr() if callable(prop_attr) else prop_attr
+
+            if prop_name in self.enum_map:
+                if isinstance(actual_value, str):
+                    var.set(actual_value)
+                else:
+                    raise ValueError(f"Value is not a str ({type(actual_value)})")
+            elif isinstance(var, tk.BooleanVar):
+                if isinstance(actual_value, bool):
+                    var.set(actual_value)
+                else:
+                    raise ValueError(f"Value is not a bool ({type(actual_value)})")
+            elif isinstance(var, tk.IntVar):
+                if isinstance(actual_value, int):
+                    var.set(actual_value)
+                else:
+                    raise ValueError(f"Value is not an int ({type(actual_value)})")
+            elif isinstance(var, tk.StringVar):
+                var.set(str(actual_value))
+
     def render_character(self):
         if not self.active_character:
             return
-        print(self.active_character.legsAreInvisible())
-        # print("legs", self.active_character.legsAreTogether())
         self.active_character.build_layers()
         self.original_image = self.active_character.render()
         self.update_image_display()
@@ -226,7 +284,14 @@ class CharacterEditor:
 
         resized_pil = img.resize(new_size, Image.Resampling.LANCZOS)
         tk_image = ImageTk.PhotoImage(resized_pil)
-        self.image_panel.configure(image=tk_image)
+        
+        self.image_panel.delete("all") # Clear previous image
+        
+        # Calculate position to center the image
+        x_center = panel_width / 2
+        y_center = panel_height / 2
+
+        self.image_panel.create_image(x_center, y_center, image=tk_image, anchor=tk.CENTER)
         self.image_panel.image = tk_image # type: ignore
 
     def save_image(self):

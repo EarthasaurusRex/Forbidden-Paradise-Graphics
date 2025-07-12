@@ -5,6 +5,8 @@ from PIL import Image
 from typing import Callable
 
 # region Enums
+
+
 class Grabber(Enum):
     NONE = ""
     BOSS_PILLAR = "bossPillar"
@@ -15,10 +17,12 @@ class Grabber(Enum):
     RED_PLANT = "red_plant"
     SANDBAG = "sandbag"
 
+
 class Mummified(Enum):
     NONE = ""
     TAPE = "tape"
     WEB = "web"
+
 
 class Mouth(Enum):
     NONE = ""
@@ -37,6 +41,7 @@ class Mouth(Enum):
     WEB = "web"
     WEB_CLEAVE = "web_cleave"
 
+
 class Eyes(Enum):
     NONE = ""
     CLOTH = "cloth"
@@ -45,6 +50,7 @@ class Eyes(Enum):
     TAPE = "tape"
     TAPE_HOOD = "tape_hood"
     WEB = "web"
+
 
 class Collar(Enum):
     NONE = ""
@@ -55,6 +61,7 @@ class Collar(Enum):
     PRISONER_CHAIN_YANK = "prisoner_chain_yank"
     RUNE = "rune"
     SEAL = "seal"
+
 
 class Arms(Enum):
     NONE = ""
@@ -67,15 +74,18 @@ class Arms(Enum):
     VINES = "vines"
     WEB = "web"
 
+
 class Mittens(Enum):
     NONE = ""
     LEATHER_BINDER = "leather_binder"
     WEB = "web"
 
+
 class Nipples(Enum):
     NONE = ""
     CATERPILLARS = "caterpillars"
     NIPPLE_CLAMPS = "nipple_clamps"
+
 
 class Legs(Enum):
     NONE = ""
@@ -85,11 +95,13 @@ class Legs(Enum):
     VINES = "vines"
     WEB = "web"
 
+
 class CrotchRope(Enum):
     NONE = ""
     REGEN_VINES = "regen_vines"
     ROPE = "rope"
     VINES = "vines"
+
 
 class Intimate(Enum):
     NONE = ""
@@ -97,42 +109,51 @@ class Intimate(Enum):
 
 # endregion
 
+
 class Character:
     """
     A class representing a character in the game.
     """
 
+    MIN_MOUTHINDEX = 1
+    MAX_MOUTHINDEX = 11
+    MIN_EYESINDEX = 1
+    MAX_EYESINDEX = 13
+    MIN_EYEBROWSINDEX = 1
+    MAX_EYEBROWSINDEX = 6
+
     def __init__(self):
         self.image_path = ""
         self.layers = {}
 
-        self.grabberConfig: str = Grabber.NONE.value
-
-        self.mouthIndex = True # 1
-        self.eyesIndex = True # 1
-        self.eyebrowsIndex = True # 1
-        self.hasFaceShadow = False # 0
-        self.hasAshen = False # 0
-        self.hasSweat = False # 0
-        self.hasExtraSweat = False # 0
-        self.hasAnger = False # 0
-        self.hasBlush = False # 0
-        self.hasExtraBlush = False # 0
-        self.hasDrool = False # 0
+        self.mouthIndex: int = 1
+        self.eyesIndex: int = 1
+        self.eyebrowsIndex: int = 1
+        self.hasFaceShadow: bool = False
+        self.hasAshen: bool = False
+        self.hasSweat: bool = False
+        self.hasExtraSweat: bool = False
+        self.hasAnger: bool = False
+        self.hasBlush: bool = False
+        self.hasExtraBlush: bool = False
+        self.hasDrool: bool = False
 
         # Character configs
-        self.hasHeadwear = False
-        self.hasOuter = True
-        self.hasInner = True
-        self.hasBra = True
-        self.hasPanties = True
-        self.hasLegWear = True
-        self.hasShoes = True
-        self.hasAcc1 = True
-        self.hasAcc2 = True
+        self.hasHeadwear: bool = True
+        self.hasOuter: bool = True
+        self.hasInner: bool = True
+        self.hasBra: bool = True
+        self.hasPanties: bool = True
+        self.hasLegWear: bool = True
+        self.hasShoes: bool = True
+        self.hasAcc1: bool = True
+        self.hasAcc2: bool = True
 
-        # Private attributes storing the callable that returns the string value
-        self.__mummifiedMaterial: Callable[[], str] = lambda: Mummified.NONE.value
+        self.__grabberConfig: str = Grabber.NONE.value
+
+        # Material attributes
+        self.__mummifiedMaterial: Callable[[],
+                                           str] = lambda: Mummified.NONE.value
         self.__eyesMaterial: Callable[[], str] = lambda: Eyes.NONE.value
         self.__mouthMaterial: Callable[[], str] = lambda: Mouth.NONE.value
         self.__collarMaterial: Callable[[], str] = lambda: Collar.NONE.value
@@ -140,22 +161,35 @@ class Character:
         self.__mittensMaterial: Callable[[], str] = lambda: Mittens.NONE.value
         self.__nippleMaterial: Callable[[], str] = lambda: Nipples.NONE.value
         self.__legsMaterial: Callable[[], str] = lambda: Legs.NONE.value
-        self.__crotchRopeMaterial: Callable[[], str] = lambda: CrotchRope.NONE.value
-        self.__intimateMaterial: Callable[[], str] = lambda: Intimate.NONE.value
+        self.__crotchRopeMaterial: Callable[[],
+                                            str] = lambda: CrotchRope.NONE.value
+        self.__intimateMaterial: Callable[[],
+                                          str] = lambda: Intimate.NONE.value
 
-        # Lambdas for dynamic properties
-        self.isFullyMummified = lambda: bool(self.mummifiedMaterial())
-        self.isMouthBound = lambda: bool(self.mouthMaterial())
-        self.isEyesBound = lambda: bool(self.eyesMaterial())
-        self.armsAreTogether = lambda: bool(self.armsMaterial() or self.isFullyMummified() or self.armsBehindBackPose())
-        self.hasCrotchRope = lambda: bool(self.crotchRopeMaterial())
+        # Dynamic properties
+        self.__isFullyMummified: Callable[[], bool] = lambda: bool(self.mummifiedMaterial())
+        self.__isMouthBound: Callable[[], bool] = lambda: bool(self.mouthMaterial())
+        self.__isEyesBound: Callable[[], bool] = lambda: bool(self.eyesMaterial())
+        self.__armsAreTogether = lambda: bool(
+            self.armsMaterial() or self.isFullyMummified() or self.armsBehindBackPose())
+        self.__hasCrotchRope = lambda: bool(self.crotchRopeMaterial())
 
         self.__armsBehindBackPose: Callable[[], bool] = lambda: False
         self.__legsAreInvisible: Callable[[], bool] = lambda: False
         self.__legsAreTogether: Callable[[], bool] = lambda: False
-        self.legsWebLikePose: Callable[[], bool] = lambda: False
+        self.__legsWebLikePose: Callable[[], bool] = lambda: False
         self.__isGrounded: Callable[[], bool] = lambda: False
-        self.__vibeIntensity: Callable[[], int] = lambda: 0
+        self.__vibeIntensity: Callable[[], bool] = lambda: False
+
+    # region Grabber
+    @property
+    def grabberConfig(self) -> str:
+        return self.__grabberConfig
+
+    @grabberConfig.setter
+    def grabberConfig(self, value: Mouth):
+        self.__grabberConfig = value.value
+    # endregion
 
     # region Full Body
     @property
@@ -165,8 +199,17 @@ class Character:
     @mummifiedMaterial.setter
     def mummifiedMaterial(self, value: Mummified):
         self.__mummifiedMaterial = lambda: value.value
-        self.isFullyMummified = lambda: bool(self.mummifiedMaterial())
-        self.armsAreTogether = lambda: bool(self.armsMaterial() or self.isFullyMummified() or self.armsBehindBackPose())
+        self.__isFullyMummified = lambda: bool(self.mummifiedMaterial())
+        self.__armsAreTogether = lambda: bool(
+            self.armsMaterial() or self.isFullyMummified() or self.armsBehindBackPose())
+
+    @property
+    def isFullyMummified(self) -> Callable[[], bool]:
+        return self.__isFullyMummified
+
+    @isFullyMummified.setter
+    def isFullyMummified(self, value: bool):
+        self.__isFullyMummified = lambda: bool(value)
     # endregion
 
     # region Mouth
@@ -177,7 +220,15 @@ class Character:
     @mouthMaterial.setter
     def mouthMaterial(self, value: Mouth):
         self.__mouthMaterial = lambda: value.value
-        self.isMouthBound = lambda: bool(self.mouthMaterial())
+        self.__isMouthBound = lambda: bool(self.mouthMaterial())
+
+    @property
+    def isMouthBound(self) -> Callable[[], bool]:
+        return self.__isMouthBound
+
+    @isMouthBound.setter
+    def isMouthBound(self, value: bool):
+        self.__isMouthBound = lambda: bool(value)
     # endregion
 
     # region Eyes
@@ -188,7 +239,15 @@ class Character:
     @eyesMaterial.setter
     def eyesMaterial(self, value: Eyes):
         self.__eyesMaterial = lambda: value.value
-        self.isEyesBound = lambda: bool(self.eyesMaterial())
+        self.__isEyesBound = lambda: bool(self.eyesMaterial())
+    
+    @property
+    def isEyesBound(self) -> Callable[[], bool]:
+        return self.__isEyesBound
+
+    @isEyesBound.setter
+    def isEyesBound(self, value: bool):
+        self.__isEyesBound = lambda: bool(value)
     # endregion
 
     # region Neck
@@ -209,7 +268,17 @@ class Character:
     @armsMaterial.setter
     def armsMaterial(self, value: Arms):
         self.__armsMaterial = lambda: value.value
-        self.armsAreTogether = lambda: bool(self.armsMaterial() or self.isFullyMummified() or self.armsBehindBackPose())
+        self.__armsBehindBackPose = lambda: bool(self.armsMaterial() in ["tape", "web"])
+        self.__armsAreTogether = lambda: bool(
+            self.armsMaterial() or self.isFullyMummified() or self.armsBehindBackPose())
+    
+    @property
+    def armsAreTogether(self) -> Callable[[], bool]:
+        return self.__armsAreTogether
+
+    @armsAreTogether.setter
+    def armsAreTogether(self, value: bool):
+        self.__armsAreTogether = lambda: bool(value)
 
     @property
     def armsBehindBackPose(self) -> Callable[[], bool]:
@@ -218,7 +287,8 @@ class Character:
     @armsBehindBackPose.setter
     def armsBehindBackPose(self, value: bool):
         self.__armsBehindBackPose = lambda: value
-        self.armsAreTogether = lambda: bool(self.armsMaterial() or self.isFullyMummified() or self.armsBehindBackPose())
+        self.__armsAreTogether = lambda: bool(
+            self.armsMaterial() or self.isFullyMummified() or self.armsBehindBackPose())
     # endregion
 
     # region Mittens
@@ -249,8 +319,8 @@ class Character:
     @legsMaterial.setter
     def legsMaterial(self, value: Legs):
         self.__legsMaterial = lambda: value.value
-        self.__legsAreTogether = lambda: bool(self.legsMaterial)
-        self.legsWebLikePose = lambda: self.legsMaterial() in ["tape", "web"]
+        self.__legsAreTogether = lambda: bool(self.legsMaterial())
+        self.__legsWebLikePose = lambda: bool(self.legsMaterial() in ["tape", "web"])
 
     @property
     def legsAreTogether(self) -> Callable[[], bool]:
@@ -258,7 +328,15 @@ class Character:
 
     @legsAreTogether.setter
     def legsAreTogether(self, value: bool):
-        self.__legsAreTogether = lambda: value
+        self.__legsAreTogether = lambda: bool(value)
+
+    @property
+    def legsWebLikePose(self) -> Callable[[], bool]:
+        return self.__legsWebLikePose
+
+    @legsWebLikePose.setter
+    def legsWebLikePose(self, value: bool):
+        self.__legsWebLikePose = lambda: bool(value)
 
     @property
     def legsAreInvisible(self) -> Callable[[], bool]:
@@ -266,7 +344,7 @@ class Character:
 
     @legsAreInvisible.setter
     def legsAreInvisible(self, value: bool):
-        self.__legsAreInvisible = lambda: value
+        self.__legsAreInvisible = lambda: bool(value)
 
     @property
     def isGrounded(self) -> Callable[[], bool]:
@@ -274,7 +352,7 @@ class Character:
 
     @isGrounded.setter
     def isGrounded(self, value: bool):
-        self.__isGrounded = lambda: value
+        self.__isGrounded = lambda: bool(value)
     # endregion
 
     # region Crotch
@@ -285,7 +363,15 @@ class Character:
     @crotchRopeMaterial.setter
     def crotchRopeMaterial(self, value: CrotchRope):
         self.__crotchRopeMaterial = lambda: value.value
-        self.hasCrotchRope = lambda: bool(self.crotchRopeMaterial())
+        self.__hasCrotchRope = lambda: bool(self.crotchRopeMaterial())
+    
+    @property
+    def hasCrotchRope(self) -> Callable[[], bool]:
+        return self.__hasCrotchRope
+
+    @hasCrotchRope.setter
+    def hasCrotchRope(self, value: bool):
+        self.__hasCrotchRope = lambda: bool(value)
     # endregion
 
     # region Intimate
@@ -298,12 +384,12 @@ class Character:
         self.__intimateMaterial = lambda: value.value
 
     @property
-    def vibeIntensity(self) -> Callable[[], int]:
+    def vibeIntensity(self) -> Callable[[], bool]:
         return self.__vibeIntensity
 
     @vibeIntensity.setter
-    def vibeIntensity(self, value: int):
-        self.__vibeIntensity = lambda: value
+    def vibeIntensity(self, value: bool):
+        self.__vibeIntensity = lambda: bool(value)
     # endregion
 
     def get_used_properties(self) -> list[str]:
@@ -321,7 +407,7 @@ class Character:
 
         # Get rid of empty layers
         self.layers = {k: v for k, v in self.layers.items() if v}
-    
+
     def modifyLayer(self, layer_index, new_value):
         if new_value < 0:
             self.layers[layer_index] = ""

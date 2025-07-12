@@ -13,7 +13,7 @@ class LilySports(Character):
         if self.grabberConfig == "human":
             self.modifyLayer(0, 0)
 
-            if self.armsMaterial() == "web": 
+            if self.armsMaterial() == "web":
                 self.modifyLayer(42, 4)
             elif self.armsAreTogether():
                 self.modifyLayer(42, 1)
