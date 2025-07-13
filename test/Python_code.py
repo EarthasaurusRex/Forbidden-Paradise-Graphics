@@ -1,110 +1,141 @@
-self.legsPose = (1 if self.hasAcc1 else 0)
-self.hasDecorativeLegCollars = self.hasLegWear
-self.wearingBelt = self.hasPanties
-self.legsChained = self.hasAcc2
+self.upsideDown = self.gamePlayer._isUpsideDown or False
+self.cocoonType = (
+    -1 if self.storyVars.cave.ca2.cocoonType is None else self.storyVars.cave.ca2.cocoonType
+) # 0: partial | 1: full, translucent | 2: full, head translucent | 3: full
+self.stuckToGround = self.hasShoes
+self.hasWristWebbing = self.hasAcc1
+self.hasFeetWebbing = self.hasLegWear or self.hasShoes
+self.hasMittens = (self.mittensMaterial() == "web")
+self.coveringBreasts = (not self.armsAreTogether() and not self.armsBehindBackPose())
 
-self.fullShirt = self.hasOuter
-self.noRipping = self.hasInner
-self.hasShirt = self.hasBra
+self.kneesBound = (1 if self.hasAcc3 else 0)
 
-if self.legsPose == 0:
-    # legs base
-    self.modifyLayer(1,0)
+# cocoon background
+if self.cocoonType > 0:
+    self.modifyLayer(0,0)
 
-    # shoes
-    if self.hasShoes:
-        self.modifyLayer(2,0)
-        self.modifyLayer(3,0)
-
-    # belt
-    if self.wearingBelt:
-        self.modifyLayer(4,0)
-
-    # leg bindings
-    if self.hasDecorativeLegCollars:
-        self.modifyLayer(5,0)
-    if self.legsChained:
-        self.modifyLayer(5,1)
-elif self.legsPose == 1:
-    # legs base
-    self.modifyLayer(1,1)
-
-    # shoes
-    if self.hasShoes:
-        self.modifyLayer(2,1)
-        self.modifyLayer(3,1)
-
-    # belt
-    if self.wearingBelt:
-        self.modifyLayer(4,2)
-
-    # leg bindings
-    if self.hasDecorativeLegCollars:
-        self.modifyLayer(5,2)
-    if self.legsChained:
-        self.modifyLayer(5,3)
-
-# Arms
-self.armsPose = 0
-if self.armsAreTogether() or self.armsBehindBackPose():
-    self.armsPose = 1 # arms behind back
-else:
-    self.armsPose = 0 # arms free
-
-self.shirtState = (0 if self.noRipping else 2) + (0 if self.fullShirt else 1)
-
-self.modifyLayer(8,self.armsPose) # arms pose
-
-if self.hasShirt:
-    if self.fullShirt:
-        self.modifyLayer(10, 0) # shirt shade
-        if not self.noRipping:
-            self.modifyLayer(11, 0) # shirt shade
+# legs base
+if not self.legsAreInvisible():
+    if self.hasFeetWebbing:
+        if self.legsAreTogether():
+            self.modifyLayer(1,5)
+        elif self.kneesBound:
+            self.modifyLayer(1,3)
+        else:
+            self.modifyLayer(1,4)
     else:
-        self.modifyLayer(10, 1) # shirt shade
-        if not self.noRipping:
-            self.modifyLayer(11, 1) # shirt shade
-    self.modifyLayer(12,self.armsPose + self.shirtState * 3) # shirt
+        if self.legsAreTogether():
+            self.modifyLayer(1,2)
+        elif self.kneesBound:
+            self.modifyLayer(1,0)
+        else:
+            self.modifyLayer(1,1)
 
-# arm bindings
-if self.armsAreTogether():
-    if self.armsMaterial() == "metal_cuffs":
-        self.modifyLayer(15,0)
+# upper base
+if self.armsBehindBackPose() or self.cocoonType == 0:
+    if self.upsideDown:
+        if self.eyesMaterial() == "web":
+            self.modifyLayer(2,6)
+        else:
+            self.modifyLayer(2,5)
+    else:
+        self.modifyLayer(2,3)
+elif self.armsAreTogether() or self.cocoonType > 0:
+    if self.hasMittens:
+        self.modifyLayer(9,2)
+    self.modifyLayer(2,2)
+elif self.coveringBreasts:
+    if self.hasWristWebbing:
+        self.modifyLayer(8,1)
+
+    if self.hasMittens:
+        self.modifyLayer(2,4)
+        self.modifyLayer(9,1)
+    else:
+        self.modifyLayer(2,1)
+else:
+    if self.hasWristWebbing:
+        self.modifyLayer(8,0)
+    if self.hasMittens:
+        self.modifyLayer(9,0)
+    self.modifyLayer(2,0)
+
+# mummified material
+if self.mummifiedMaterial() == "web" and self.cocoonType != 0:
+    self.modifyLayer(3,0)
+
+# ground trap
+if self.stuckToGround:
+    self.modifyLayer(4,0)
+
+# legs bound
+if self.legsMaterial() == "web" and self.cocoonType != 0:
+    self.modifyLayer(5,0)
+    self.modifyLayer(6,0)
+
+    if self.upsideDown:
+        self.modifyLayer(7,0)
+elif self.kneesBound:
+    self.modifyLayer(5,1)
 
 # Nipples
-if self.nippleMaterial() == "nipple_clamps":
-    self.modifyLayer(17, 0)
+if self.nippleMaterial() == "caterpillars":
+    self.modifyLayer(11,0)
 
-# face
+
+# head
 if not self.isMouthBound():
-    self.modifyLayer(24,self.mouthIndex-1)
-
-if self.mouthMaterial() == "cloth":
+    self.modifyLayer(20,self.mouthIndex-1)
+if self.mouthMaterial() == "web_cleave":
     self.modifyLayer(25,0)
-if self.hasDrool:
-    if self.mouthMaterial() == "cloth":
+elif self.mouthMaterial() == "web":
+    if self.upsideDown:
+        self.modifyLayer(25,2)
+    else:
+        self.modifyLayer(25,1)
+
+self.modifyLayer(22,self.eyebrowsIndex-1)
+if not self.isEyesBound():
+    if self.upsideDown:
+        self.modifyLayer(21, 30 + self.eyesIndex - 1)
+    else:
+        self.modifyLayer(21,self.eyesIndex-1)
+if self.eyesMaterial() == "web":
+    if self.upsideDown:
+        self.modifyLayer(26,2)
+    else:
         self.modifyLayer(26,0)
 
-self.modifyLayer(27,self.eyebrowsIndex-1)
-if not self.isEyesBound():
-    self.modifyLayer(28,self.eyesIndex-1)
-
-if self.eyesMaterial() == "cloth":
-    self.modifyLayer(29,0)
-
-if self.hasBlush:
-    self.modifyLayer(31,0)
-if self.hasFaceShadow:
-    self.modifyLayer(32,0)
-if self.hasAshen:
-    self.modifyLayer(33,0)
-if self.hasExtraBlush:
+if self.hasAnger:
     self.modifyLayer(34,0)
+if self.hasBlush:
+    self.modifyLayer(27,0)
+if self.hasFaceShadow:
+    self.modifyLayer(28,0)
+if self.hasAshen:
+    self.modifyLayer(29,0)
+if self.hasExtraBlush:
+    self.modifyLayer(30,0)
 if self.hasSweat:
-    self.modifyLayer(35,0)
+    if self.upsideDown:
+        self.modifyLayer(31,1)
+    else:
+        self.modifyLayer(31,0)
 if self.hasExtraSweat:
-    self.modifyLayer(36,0)
+    if self.upsideDown:
+        self.modifyLayer(32,1)
+    else:
+        self.modifyLayer(32,0)
 
 # neck
 if self.collarMaterial() == "rune":
-    self.modifyLayer(39,0)
+    if self.mummifiedMaterial() == "web":
+        self.modifyLayer(33,1)
+    else:
+        self.modifyLayer(33,0)
+
+# cocoon
+if self.cocoonType == 0:
+    self.modifyLayer(37,0)
+elif self.cocoonType > 0:
+    self.modifyLayer(40,self.cocoonType-1)

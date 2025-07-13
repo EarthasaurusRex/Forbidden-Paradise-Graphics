@@ -125,6 +125,12 @@ class LastBaseOutfit(Enum):
     LILY_BUNNY = "lily_bunny"
     LILY_SPORTS = "lily_sports"
 
+class CocoonType(Enum):
+    PARIAL = 0
+    FULL_TRANSPARENT = 1
+    FULL_HEAD_TRANSPARENT = 2
+    FULL = 3
+
 # endregion
 
 
@@ -175,6 +181,8 @@ class Character:
         self.__grabberConfig: str = Grabber.NONE.value
         self.__lastBaseOutfit: Callable[[], str] = lambda: LastBaseOutfit.LILY_URBAN.value
         self.isAlter: bool = False
+        self.upsideDown: bool = False
+        self.cocoonType: int = CocoonType.PARIAL.value
 
         # Material attributes
         self.__mummifiedMaterial: Callable[[],

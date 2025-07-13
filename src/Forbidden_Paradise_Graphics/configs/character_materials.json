@@ -163,31 +163,53 @@
     },
     "LilyEvent2": {
         "mouthMaterial": [
-            "NONE",
-            "BALL",
-            "BALL_BIG",
-            "BALL_STRICT",
-            "MOUTH_MASK"
+            "CLOTH"
         ],
         "eyesMaterial": [
-            "NONE",
-            "LEATHER_BLINDFOLD"
+            "CLOTH"
         ],
         "collarMaterial": [
             "NONE",
-            "BELL"
+            "RUNE"
         ],
-        "mittensMaterial": [
+        "armsMaterial": [
             "NONE",
-            "LEATHER_BINDER"
+            "METAL_CUFFS"
         ],
         "nippleMaterial": [
             "NONE",
             "NIPPLE_CLAMPS"
-        ],
-        "grabberConfig": [
+        ]
+    },
+    "LilyEvent3": {
+        "mummifiedMaterial": [
             "NONE",
-            "HUMAN"
+            "WEB"
+        ],
+        "mouthMaterial": [
+            "NONE",
+            "WEB",
+            "WEB_CLEAVE"
+        ],
+        "eyesMaterial": [
+            "NONE",
+            "WEB"
+        ],
+        "collarMaterial": [
+            "NONE",
+            "RUNE"
+        ],
+        "mittensMaterial": [
+            "NONE",
+            "WEB"
+        ],
+        "nippleMaterial": [
+            "NONE",
+            "CATERPILLARS"
+        ],
+        "legsMaterial": [
+            "NONE",
+            "WEB"
         ]
     },
     "LilySports": {

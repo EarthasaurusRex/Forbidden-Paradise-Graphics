@@ -13,7 +13,7 @@ import sys
 import importlib.util
 import inspect
 
-from Forbidden_Paradise_Graphics.characters.character import Character, Arms, Collar, CrotchRope, Eyes, Grabber, LastBaseOutfit, Intimate, Legs, Mittens, Mouth, Mummified, Nipples
+from Forbidden_Paradise_Graphics.characters.character import Character, CocoonType, Arms, Collar, CrotchRope, Eyes, Grabber, LastBaseOutfit, Intimate, Legs, Mittens, Mouth, Mummified, Nipples
 
 def resource_path(relative_path):
     """Get absolute path to resource, works for dev and for PyInstaller"""
@@ -72,7 +72,8 @@ class CharacterEditor:
             "crotchRopeMaterial": CrotchRope,
             "intimateMaterial": Intimate,
             "grabberConfig": Grabber,
-            "lastBaseOutfit": LastBaseOutfit
+            "lastBaseOutfit": LastBaseOutfit,
+            "cocoonType": CocoonType
         }
 
         # Load character material configurations
