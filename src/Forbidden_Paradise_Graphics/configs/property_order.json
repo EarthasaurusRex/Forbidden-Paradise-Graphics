@@ -19,6 +19,8 @@
         "hasAnger",
         "hasBlush",
         "hasExtraBlush",
+        "mummifiedMaterial",
+        "isFullyMummified",
         "mouthMaterial",
         "hasDrool",
         "isMouthBound",

@@ -1,0 +1,181 @@
+{
+    "LilyBunny": {
+        "mummifiedMaterial": [
+            "NONE",
+            "TAPE",
+            "WEB"
+        ],
+        "mouthMaterial": [
+            "NONE",
+            "BALL",
+            "BALL_BIG",
+            "BALL_CLOTH",
+            "BALL_STRICT",
+            "BALL_TAPE",
+            "BALL_TAPE_CLOTH",
+            "CLOTH",
+            "CLOTH_TAPE",
+            "ROPE",
+            "TAPE",
+            "WEB"
+        ],
+        "eyesMaterial": [
+            "NONE",
+            "CLOTH",
+            "LEATHER_BLINDFOLD",
+            "ROPE",
+            "TAPE_HOOD",
+            "WEB"
+        ],
+        "collarMaterial": [
+            "NONE",
+            "BELL",
+            "RUNE"
+        ],
+        "armsMaterial": [
+            "NONE",
+            "PARTIAL_TAPE_MUMMY",
+            "REGEN_VINES",
+            "ROPE",
+            "TAPE",
+            "VINES",
+            "WEB"
+        ],
+        "legsMaterial": [
+            "NONE",
+            "REGEN_VINES",
+            "ROPE",
+            "TAPE",
+            "VINES",
+            "WEB"
+        ],
+        "crotchRopeMaterial": [
+            "NONE",
+            "REGEN_VINES",
+            "ROPE",
+            "VINES"
+        ],
+        "grabberConfig": ["NONE", "BOSSPILLAR", "CATERPILLAR", "HUMAN", "PLANT", "POLE", "ROPE_WALK", "SANDBAG"]
+    },
+    "LilySports": {
+        "mummifiedMaterial": [
+            "NONE",
+            "TAPE",
+            "WEB"
+        ],
+        "mouthMaterial": [
+            "NONE",
+            "BALL",
+            "BALL_BIG",
+            "BALL_STRICT",
+            "CLOTH",
+            "ROPE",
+            "TAPE",
+            "WEB"
+        ],
+        "eyesMaterial": [
+            "NONE",
+            "CLOTH",
+            "LEATHER_BLINDFOLD",
+            "ROPE",
+            "WEB"
+        ],
+        "collarMaterial": [
+            "NONE",
+            "BELL",
+            "RUNE"
+        ],
+        "armsMaterial": [
+            "NONE",
+            "REGEN_VINES",
+            "ROPE",
+            "TAPE",
+            "VINES",
+            "WEB"
+        ],
+        "nippleMaterial": [
+            "NONE",
+            "NIPPLE_CLAMPS"
+        ],
+        "legsMaterial": [
+            "NONE",
+            "REGEN_VINES",
+            "ROPE",
+            "TAPE",
+            "VINES",
+            "WEB"
+        ],
+        "crotchRopeMaterial": [
+            "NONE",
+            "REGEN_VINES",
+            "ROPE",
+            "VINES"
+        ],
+        "grabberConfig": ["NONE", "BOSSPILLAR", "CATERPILLAR", "HUMAN", "PLANT", "POLE", "SANDBAG"]
+    },
+    "LilyUrban": {
+        "mummifiedMaterial": [
+            "NONE",
+            "TAPE",
+            "WEB"
+        ],
+        "mouthMaterial": [
+            "NONE",
+            "BALL",
+            "BALL_BIG",
+            "BALL_STRICT",
+            "BIT_GAG",
+            "CLOTH",
+            "ROPE",
+            "TAPE",
+            "WEB"
+        ],
+        "eyesMaterial": [
+            "NONE",
+            "CLOTH",
+            "LEATHER_BLINDFOLD",
+            "ROPE",
+            "WEB"
+        ],
+        "collarMaterial": [
+            "NONE",
+            "BELL",
+            "RUNE"
+        ],
+        "armsMaterial": [
+            "NONE",
+            "REGEN_VINES",
+            "ROPE",
+            "TAPE",
+            "VINES",
+            "WEB"
+        ],
+        "mittensMaterial": [
+            "NONE",
+            "LEATHER_BINDER"
+        ],
+        "nippleMaterial": [
+            "NONE",
+            "NIPPLE_CLAMPS"
+        ],
+        "legsMaterial": [
+            "NONE",
+            "REGEN_VINES",
+            "ROPE",
+            "TAPE",
+            "VINES",
+            "WEB"
+        ],
+        "crotchRopeMaterial": [
+            "NONE",
+            "REGEN_VINES",
+            "ROPE",
+            "VINES"
+        ],
+        "intimateMaterial": [
+            "NONE",
+            "BULLET_VIBE"
+        ],
+        "grabberConfig": ["NONE", "BOSSPILLAR", "CATERPILLAR", "HUMAN", "PLANT", "POLE", "RED_PLANT", "SANDBAG"]
+    }
+}

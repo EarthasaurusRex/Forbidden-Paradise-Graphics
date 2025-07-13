@@ -25,6 +25,7 @@ class Grabber(Enum):
     HUMAN = "human"
     PLANT = "plant"
     POLE = "pole"
+    ROPE_WALK = "rope_walk"
     RED_PLANT = "red_plant"
     SANDBAG = "sandbag"
 
@@ -161,6 +162,7 @@ class Character:
         self.hasShoes: bool = True
         self.hasAcc1: bool = True
         self.hasAcc2: bool = True
+        self.hasAcc3: bool = True
 
         self.__grabberConfig: str = Grabber.NONE.value
 
@@ -213,6 +215,8 @@ class Character:
     def mummifiedMaterial(self, value: Mummified):
         self.__mummifiedMaterial = lambda: value.value
         self.__isFullyMummified = lambda: bool(self.mummifiedMaterial())
+        self.__armsBehindBackPose = lambda: bool(self.isFullyMummified())
+        self.__legsAreTogether = lambda: bool(self.isFullyMummified())
         self.__armsAreTogether = lambda: bool(
             self.armsMaterial() or self.isFullyMummified() or self.armsBehindBackPose())
 
@@ -281,7 +285,7 @@ class Character:
     @armsMaterial.setter
     def armsMaterial(self, value: Arms):
         self.__armsMaterial = lambda: value.value
-        self.__armsBehindBackPose = lambda: bool(self.armsMaterial() in ["tape", "web"])
+        self.__armsBehindBackPose = lambda: bool(self.armsMaterial() in ["partial_tape_mummy", "tape", "web"])
         self.__armsAreTogether = lambda: bool(
             self.armsMaterial() or self.isFullyMummified() or self.armsBehindBackPose())
     

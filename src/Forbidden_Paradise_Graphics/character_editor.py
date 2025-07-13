@@ -4,8 +4,16 @@ from PIL import Image, ImageTk
 import json
 import os
 import sys
-from Forbidden_Paradise_Graphics.characters import LilySports, LilyUrban
-from Forbidden_Paradise_Graphics.characters.character import Arms, Collar, CrotchRope, Eyes, Grabber, Intimate, Legs, Mittens, Mouth, Mummified, Nipples
+import tkinter as tk
+from tkinter import ttk, filedialog
+from PIL import Image, ImageTk
+import json
+import os
+import sys
+import importlib.util
+import inspect
+
+from Forbidden_Paradise_Graphics.characters.character import Character, Arms, Collar, CrotchRope, Eyes, Grabber, Intimate, Legs, Mittens, Mouth, Mummified, Nipples
 
 def resource_path(relative_path):
     """Get absolute path to resource, works for dev and for PyInstaller"""
@@ -17,21 +25,37 @@ def resource_path(relative_path):
 
     return os.path.join(base_path, relative_path)
 
-def list_characters():
-    """Returns a list of available character directories."""
-    return ["lily_sports", "lily_urban"]
+def load_character_classes():
+    character_classes = {}
+    characters_dir = resource_path(os.path.join("characters"))
+
+    for filename in os.listdir(characters_dir):
+        if filename.endswith(".py") and filename not in ["__init__.py", "character.py"]:
+            module_name = filename[:-3]  # Remove .py extension
+            file_path = os.path.join(characters_dir, filename)
+
+            spec = importlib.util.spec_from_file_location(f"Forbidden_Paradise_Graphics.characters.{module_name}", file_path)
+            if spec:
+                module = importlib.util.module_from_spec(spec)
+                sys.modules[spec.name] = module
+                spec.loader.exec_module(module)
+
+                for name, obj in inspect.getmembers(module, inspect.isclass):
+                    if issubclass(obj, Character) and obj is not Character:
+                        # Convert class name (e.g., LilySports) to desired key (e.g., lily_sports)
+                        key_name = ''.join(['_' + c.lower() if c.isupper() else c for c in name]).lstrip('_')
+                        character_classes[key_name] = obj
+    return character_classes
 
 class CharacterEditor:
+
     def __init__(self, root):
         self.root = root
         self.root.title("Character Editor")
         self.root.geometry("800x600")
         self.root.minsize(400, 300)
 
-        self.character_map = {
-            "lily_sports": LilySports,
-            "lily_urban": LilyUrban,
-        }
+        self.character_map = load_character_classes()
         self.active_character = None
         self.original_image = None
         self.property_vars = {}
@@ -49,6 +73,18 @@ class CharacterEditor:
             "intimateMaterial": Intimate,
             "grabberConfig": Grabber,
         }
+
+        # Load character material configurations
+        materials_config_path = resource_path(os.path.join("configs", "character_materials.json"))
+        try:
+            with open(materials_config_path, "r") as f:
+                self.character_materials_config = json.load(f)
+        except FileNotFoundError:
+            print(f"Error: character_materials.json not found at {materials_config_path}")
+            self.character_materials_config = {}
+        except json.JSONDecodeError:
+            print(f"Error: Could not decode character_materials.json at {materials_config_path}")
+            self.character_materials_config = {}
 
         # --- Layout ---
         main_frame = ttk.Frame(self.root, padding="10")
@@ -76,7 +112,7 @@ class CharacterEditor:
         # Character List
         ttk.Label(left_panel, text="Characters", font=("Arial", 12, "bold")).pack(anchor="w", pady=(0, 5))
         self.char_listbox = tk.Listbox(left_panel, exportselection=False)
-        for char_name in list_characters():
+        for char_name in self.character_map.keys():
             self.char_listbox.insert(tk.END, char_name)
         self.char_listbox.pack(fill=tk.Y, expand=True, anchor="n", side="left")
         self.char_listbox.bind("<<ListboxSelect>>", self.on_character_select)
@@ -194,7 +230,12 @@ class CharacterEditor:
             # --- Create editor widgets and store their variables ---
             if prop_name in self.enum_map:
                 enum_type = self.enum_map[prop_name]
-                options = [e.value for e in enum_type]
+                
+                # Get allowed options from config, or all enum values if not specified
+                character_name = self.active_character.__class__.__name__
+                allowed_options = self.character_materials_config.get(character_name, {}).get(prop_name, [e.name for e in enum_type])
+                options = [e.value for e in enum_type if e.name in allowed_options]
+
                 var = tk.StringVar(value=str(actual_value))
                 self.property_vars[prop_name] = var
                 setter_callback = create_setter(prop_name, var, is_enum=True, enum_type=enum_type)
