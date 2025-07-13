@@ -287,8 +287,10 @@ class CharacterEditor:
             actual_value = prop_attr() if callable(prop_attr) else prop_attr
 
             if prop_name in self.enum_map:
-                if isinstance(actual_value, (str, int)):
+                if isinstance(actual_value, str):
                     var.set(actual_value)
+                elif isinstance(actual_value, int):
+                    var.set(int(actual_value))
                 else:
                     raise ValueError(f"Value is not a str or int ({type(actual_value)})")
             elif isinstance(var, tk.BooleanVar):

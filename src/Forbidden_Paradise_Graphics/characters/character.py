@@ -126,10 +126,10 @@ class LastBaseOutfit(Enum):
     LILY_SPORTS = "lily_sports"
 
 class CocoonType(Enum):
-    PARIAL = 0
-    FULL_TRANSPARENT = 1
-    FULL_HEAD_TRANSPARENT = 2
-    FULL = 3
+    PARIAL = '0'
+    FULL_TRANSPARENT = '1'
+    FULL_HEAD_TRANSPARENT = '2'
+    FULL = '3'
 
 # endregion
 
@@ -182,7 +182,7 @@ class Character:
         self.__lastBaseOutfit: Callable[[], str] = lambda: LastBaseOutfit.LILY_URBAN.value
         self.isAlter: bool = False
         self.upsideDown: bool = False
-        self.cocoonType: int = CocoonType.PARIAL.value
+        self.__cocoonType: str = CocoonType.PARIAL.value
 
         # Material attributes
         self.__mummifiedMaterial: Callable[[],
@@ -435,6 +435,16 @@ class Character:
     @lastBaseOutfit.setter
     def lastBaseOutfit(self, value: LastBaseOutfit):
         self.__lastBaseOutfit = lambda: value.value
+    # endregion
+
+    # region Cocoon Type
+    @property
+    def cocoonType(self) -> str:
+        return self.__cocoonType
+
+    @cocoonType.setter
+    def cocoonType(self, value: CocoonType):
+        self.__cocoonType = value.value
     # endregion
 
     def get_used_properties(self) -> list[str]:

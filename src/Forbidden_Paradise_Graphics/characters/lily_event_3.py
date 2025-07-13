@@ -11,6 +11,8 @@ class LilyEvent3(Character):
     def build_layers(self):
         self.layers = {}
 
+        cocoonType = int(self.cocoonType)
+
         # self.upsideDown = self.gamePlayer._isUpsideDown or False
         # self.cocoonType = (
         #     -1 if self.storyVars.cave.ca2.cocoonType is None else self.storyVars.cave.ca2.cocoonType
@@ -24,7 +26,7 @@ class LilyEvent3(Character):
         kneesBound = (1 if self.hasAcc3 else 0)
 
         # cocoon background
-        if self.cocoonType > 0:
+        if cocoonType > 0:
             self.modifyLayer(0,0)
 
         # legs base
@@ -45,7 +47,7 @@ class LilyEvent3(Character):
                     self.modifyLayer(1,1)
 
         # upper base
-        if self.armsBehindBackPose() or self.cocoonType == 0:
+        if self.armsBehindBackPose() or cocoonType == 0:
             if self.upsideDown:
                 if self.eyesMaterial() == "web":
                     self.modifyLayer(2,6)
@@ -53,7 +55,7 @@ class LilyEvent3(Character):
                     self.modifyLayer(2,5)
             else:
                 self.modifyLayer(2,3)
-        elif self.armsAreTogether() or self.cocoonType > 0:
+        elif self.armsAreTogether() or cocoonType > 0:
             if hasMittens:
                 self.modifyLayer(9,2)
             self.modifyLayer(2,2)
@@ -74,7 +76,7 @@ class LilyEvent3(Character):
             self.modifyLayer(2,0)
 
         # mummified material
-        if self.mummifiedMaterial() == "web" and self.cocoonType != 0:
+        if self.mummifiedMaterial() == "web" and cocoonType != 0:
             self.modifyLayer(3,0)
 
         # ground trap
@@ -82,7 +84,7 @@ class LilyEvent3(Character):
             self.modifyLayer(4,0)
 
         # legs bound
-        if self.legsMaterial() == "web" and self.cocoonType != 0:
+        if self.legsMaterial() == "web" and cocoonType != 0:
             self.modifyLayer(5,0)
             self.modifyLayer(6,0)
 
@@ -148,7 +150,7 @@ class LilyEvent3(Character):
                 self.modifyLayer(33,0)
 
         # cocoon
-        if self.cocoonType == 0:
+        if cocoonType == 0:
             self.modifyLayer(37,0)
-        elif self.cocoonType > 0:
-            self.modifyLayer(40,self.cocoonType-1)
+        elif cocoonType > 0:
+            self.modifyLayer(40,cocoonType-1)
