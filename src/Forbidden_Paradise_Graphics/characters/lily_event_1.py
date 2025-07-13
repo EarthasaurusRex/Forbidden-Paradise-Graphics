@@ -8,6 +8,17 @@ class LilyEvent1(Character):
     def __init__(self):
         super().__init__()
         self.image_path = resource_path(os.path.join("img", "pictures", "characters", "lily_event_1"))
+        self.__hasOuter: bool = True
+    
+    @property
+    def hasOuter(self) -> bool:
+        return self.__hasOuter
+    
+    @hasOuter.setter
+    def hasOuter(self, value: bool):
+        print("setting to", value)
+        self.__hasOuter = value
+        self.armsAreTogether = not self.hasOuter
 
     def build_layers(self):
         self.layers = {}
