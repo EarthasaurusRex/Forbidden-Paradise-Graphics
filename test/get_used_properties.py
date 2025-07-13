@@ -6,7 +6,7 @@ with open("src/Forbidden_Paradise_Graphics/characters/lily_event_1.py", 'r') as 
 
     materials = set()
 
-    matches = re.findall(r'self\.(\w+?)[(:\s]', content)
+    matches = re.findall(r'self\.(\w+?)[^\w]', content)
     for match in matches:
         materials.add(match)
     

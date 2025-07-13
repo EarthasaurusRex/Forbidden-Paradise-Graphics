@@ -8,6 +8,8 @@ src/Forbidden_Paradise_Graphics.egg-info/requires.txt
 src/Forbidden_Paradise_Graphics.egg-info/top_level.txt
 src/Forbidden_Paradise_Graphics/characters/__init__.py
 src/Forbidden_Paradise_Graphics/characters/character.py
+src/Forbidden_Paradise_Graphics/characters/lily_bandit.py
+src/Forbidden_Paradise_Graphics/characters/lily_bunny.py
+src/Forbidden_Paradise_Graphics/characters/lily_event_1.py
 src/Forbidden_Paradise_Graphics/characters/lily_sports.py
 src/Forbidden_Paradise_Graphics/characters/lily_urban.py
-test/test.py

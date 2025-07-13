@@ -128,64 +128,31 @@
         ]
     },
     "LilyEvent1": {
-        "mummifiedMaterial": [
-            "NONE",
-            "TAPE",
-            "WEB"
-        ],
         "mouthMaterial": [
             "NONE",
             "BALL",
             "BALL_BIG",
             "BALL_STRICT",
-            "CLOTH",
-            "ROPE",
-            "TAPE",
-            "WEB"
+            "MOUTH_MASK"
         ],
         "eyesMaterial": [
             "NONE",
-            "CLOTH",
-            "LEATHER_BLINDFOLD",
-            "ROPE",
-            "WEB"
+            "LEATHER_BLINDFOLD"
         ],
         "collarMaterial": [
             "NONE",
-            "BELL",
-            "RUNE"
+            "BELL"
         ],
-        "armsMaterial": [
+        "mittensMaterial": [
             "NONE",
-            "REGEN_VINES",
-            "ROPE",
-            "TAPE",
-            "VINES",
-            "WEB"
+            "LEATHER_BINDER"
         ],
-        "legsMaterial": [
-            "NONE",
-            "REGEN_VINES",
-            "ROPE",
-            "TAPE",
-            "VINES",
-            "WEB"
-        ],
-        "crotchRopeMaterial": [
-            "NONE",
-            "REGEN_VINES",
-            "ROPE",
-            "VINES"
+        "nippleMaterial": [
+            "NIPPLE_CLAMPS"
         ],
         "grabberConfig": [
             "NONE",
-            "BOSSPILLAR",
-            "CATERPILLAR",
-            "HUMAN",
-            "PLANT",
-            "POLE",
-            "RED_PLANT",
-            "SANDBAG"
+            "HUMAN"
         ],
         "lastBaseOutfit": [
             "LILY_URBAN",

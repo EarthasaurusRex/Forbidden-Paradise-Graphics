@@ -2,3 +2,4 @@ NYO_CharacterPicture.js
 build/
 dist/
 img_main/
+.venv/
