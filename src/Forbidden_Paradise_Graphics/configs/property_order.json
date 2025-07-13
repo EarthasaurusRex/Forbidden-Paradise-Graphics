@@ -1,5 +1,7 @@
 {
     "DEFAULT_PROPERTY_ORDER": [
+        "lastBaseOutfit",
+        "isAlter",
         "hasHeadwear",
         "hasOuter",
         "hasInner",

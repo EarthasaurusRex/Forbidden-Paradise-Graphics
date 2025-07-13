@@ -1,12 +1,12 @@
 import re
 import json
 
-with open("src/Forbidden_Paradise_Graphics/characters/lily_bunny.py", 'r') as f:
+with open("src/Forbidden_Paradise_Graphics/characters/lily_event_1.py", 'r') as f:
     content = f.read()
 
     materials = set()
 
-    matches = re.findall(r'self\.(\w+?)[(: ]', content)
+    matches = re.findall(r'self\.(\w+?)[(:\s]', content)
     for match in matches:
         materials.add(match)
     

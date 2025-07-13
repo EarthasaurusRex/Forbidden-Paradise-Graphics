@@ -6,7 +6,7 @@ with open("src/Forbidden_Paradise_Graphics/characters/lily_bandit.py", 'r') as f
 
     materials = set()
 
-    matches = re.findall(r'grabberConfig(?:\(\))? [!=]= "(\w+?)"', content)
+    matches = re.findall(r'lastBaseOutfit(?:\(\))? [!=]= "(\w+?)"', content)
     for match in matches:
         materials.add(match)
     

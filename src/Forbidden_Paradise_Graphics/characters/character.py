@@ -119,6 +119,12 @@ class Intimate(Enum):
     NONE = ""
     BULLET_VIBE = "bullet_vibe"
 
+class LastBaseOutfit(Enum):
+    LILY_URBAN = "lily_urban"
+    LILY_BANDIT = "lily_bandit"
+    LILY_BUNNY = "lily_bunny"
+    LILY_SPORTS = "lily_sports"
+
 # endregion
 
 
@@ -167,6 +173,8 @@ class Character:
         self.hasAcc5: bool = True
 
         self.__grabberConfig: str = Grabber.NONE.value
+        self.__lastBaseOutfit: Callable[[], str] = lambda: LastBaseOutfit.LILY_URBAN.value
+        self.isAlter: bool = False
 
         # Material attributes
         self.__mummifiedMaterial: Callable[[],
@@ -409,6 +417,16 @@ class Character:
     @vibeIntensity.setter
     def vibeIntensity(self, value: bool):
         self.__vibeIntensity = lambda: bool(value)
+    # endregion
+
+    # region Last Base Outfit
+    @property
+    def lastBaseOutfit(self) -> Callable[[], str]:
+        return self.__lastBaseOutfit
+
+    @lastBaseOutfit.setter
+    def lastBaseOutfit(self, value: LastBaseOutfit):
+        self.__lastBaseOutfit = lambda: value.value
     # endregion
 
     def get_used_properties(self) -> list[str]:
