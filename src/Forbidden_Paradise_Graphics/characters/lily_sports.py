@@ -1,10 +1,13 @@
-from .character import Character
+import os
+import sys
+from Forbidden_Paradise_Graphics.characters import Character
+from Forbidden_Paradise_Graphics.characters.character import resource_path
 
 
 class LilySports(Character):
     def __init__(self):
         super().__init__()
-        self.image_path = "img\\pictures\\characters\\lily_sports"
+        self.image_path = resource_path(os.path.join("img", "pictures", "characters", "lily_sports"))
 
     def build_layers(self):
         self.layers = {}

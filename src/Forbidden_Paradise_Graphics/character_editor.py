@@ -2,10 +2,20 @@ import tkinter as tk
 from tkinter import ttk, filedialog
 from PIL import Image, ImageTk
 import json
-from .characters import LilySports, LilyUrban
-from .characters.character import Arms, Collar, CrotchRope, Eyes, Grabber, Intimate, Legs, Mittens, Mouth, Mummified, Nipples
+import os
+import sys
+from Forbidden_Paradise_Graphics.characters import LilySports, LilyUrban
+from Forbidden_Paradise_Graphics.characters.character import Arms, Collar, CrotchRope, Eyes, Grabber, Intimate, Legs, Mittens, Mouth, Mummified, Nipples
 
-IMAGES = ".\\img\\pictures\\characters"
+def resource_path(relative_path):
+    """Get absolute path to resource, works for dev and for PyInstaller"""
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".\\src\\Forbidden_Paradise_Graphics")
+
+    return os.path.join(base_path, relative_path)
 
 def list_characters():
     """Returns a list of available character directories."""
@@ -129,7 +139,9 @@ class CharacterEditor:
         canvas.bind_all("<MouseWheel>", lambda event: canvas.yview_scroll(int(-1*(event.delta/120)), "units"))
 
         # --- Populate the scrollable frame with property editors ---
-        with open("src/Forbidden_Paradise_Graphics/property_order.json", "r") as f:
+        
+        configs_path = resource_path(os.path.join("configs", "property_order.json"))
+        with open(configs_path, "r") as f:
             config = json.load(f)
         property_order = config.get("DEFAULT_PROPERTY_ORDER", [])
         active_character_properties = self.active_character.get_used_properties()

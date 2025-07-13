@@ -1,0 +1,15 @@
+[project]
+name = "Forbidden-Paradise-Graphics"
+version = "0.1.0"
+description = "A graphics editor for Forbidden Paradise"
+requires-python = ">=3.10"
+dependencies = [
+    "Pillow",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"] # Search for packages in "src"

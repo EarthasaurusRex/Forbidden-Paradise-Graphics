@@ -1,8 +1,19 @@
 import os
+import sys
 import json
 from enum import Enum
 from PIL import Image
 from typing import Callable
+
+def resource_path(relative_path):
+    """Get absolute path to resource, works for dev and for PyInstaller"""
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".\\src\\Forbidden_Paradise_Graphics")
+
+    return os.path.join(base_path, relative_path)
 
 # region Enums
 
@@ -123,6 +134,8 @@ class Character:
     MAX_EYEBROWSINDEX = 6
 
     def __init__(self):
+        self.base_dir = resource_path(".")
+
         self.image_path = ""
         self.layers = {}
 
@@ -397,7 +410,8 @@ class Character:
         Returns a list of properties used by this character,
         based on the centralized configuration.
         """
-        with open("src/Forbidden_Paradise_Graphics/characters/character_properties.json", "r") as f:
+        configs_path = resource_path(os.path.join("configs", "character_properties.json"))
+        with open(configs_path, "r") as f:
             properties = json.load(f)
         return properties.get(self.__class__.__name__, [])
 

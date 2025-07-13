@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: Forbidden-Paradise-Graphics
+Version: 0.1.0
+Summary: A graphics editor for Forbidden Paradise
+Requires-Python: >=3.10
+Requires-Dist: Pillow
