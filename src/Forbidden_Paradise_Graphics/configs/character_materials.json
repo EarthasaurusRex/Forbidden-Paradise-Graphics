@@ -148,6 +148,7 @@
             "LEATHER_BINDER"
         ],
         "nippleMaterial": [
+            "NONE",
             "NIPPLE_CLAMPS"
         ],
         "grabberConfig": [
@@ -163,9 +164,11 @@
     },
     "LilyEvent2": {
         "mouthMaterial": [
+            "NONE",
             "CLOTH"
         ],
         "eyesMaterial": [
+            "NONE",
             "CLOTH"
         ],
         "collarMaterial": [
