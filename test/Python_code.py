@@ -1,141 +1,222 @@
-self.upsideDown = self.gamePlayer._isUpsideDown or False
-self.cocoonType = (
-    -1 if self.storyVars.cave.ca2.cocoonType is None else self.storyVars.cave.ca2.cocoonType
-) # 0: partial | 1: full, translucent | 2: full, head translucent | 3: full
-self.stuckToGround = self.hasShoes
-self.hasWristWebbing = self.hasAcc1
-self.hasFeetWebbing = self.hasLegWear or self.hasShoes
-self.hasMittens = (self.mittensMaterial() == "web")
-self.coveringBreasts = (not self.armsAreTogether() and not self.armsBehindBackPose())
+self.hasDrool = self._drool > 0
 
-self.kneesBound = (1 if self.hasAcc3 else 0)
+# Hair ornaments
+self.modifyLayer(1, (0 if self.hasHeadwear else -1))
+self.modifyLayer(20, (0 if self.hasHeadwear else -1))
 
-# cocoon background
-if self.cocoonType > 0:
-    self.modifyLayer(0,0)
+# Hair and back hair for long hair
+if not self.hasHeadwear:
+    self.modifyLayer(0, 1)
 
-# legs base
-if not self.legsAreInvisible():
-    if self.hasFeetWebbing:
-        if self.legsAreTogether():
-            self.modifyLayer(1,5)
-        elif self.kneesBound:
-            self.modifyLayer(1,3)
+    if (self.isArmsBound() and self.armsMaterial() == "cuffs") or self.gamePlayer.mittensEquip == "leather_binder":
+        self.modifyLayer(19, 7)
+    elif self.isArmsBound():
+        if self.hasOuter:
+            self.modifyLayer(19, 6)
+        elif self.hasInner:
+            self.modifyLayer(19, 5)
         else:
-            self.modifyLayer(1,4)
+            self.modifyLayer(19, 4)
     else:
-        if self.legsAreTogether():
-            self.modifyLayer(1,2)
-        elif self.kneesBound:
-            self.modifyLayer(1,0)
+        if self.hasOuter:
+            self.modifyLayer(19, 3)
+        elif self.hasInner:
+            self.modifyLayer(19, 2)
         else:
-            self.modifyLayer(1,1)
+            self.modifyLayer(19, 1)
 
-# upper base
-if self.armsBehindBackPose() or self.cocoonType == 0:
-    if self.upsideDown:
-        if self.eyesMaterial() == "web":
-            self.modifyLayer(2,6)
-        else:
-            self.modifyLayer(2,5)
-    else:
-        self.modifyLayer(2,3)
-elif self.armsAreTogether() or self.cocoonType > 0:
-    if self.hasMittens:
-        self.modifyLayer(9,2)
-    self.modifyLayer(2,2)
-elif self.coveringBreasts:
-    if self.hasWristWebbing:
-        self.modifyLayer(8,1)
-
-    if self.hasMittens:
-        self.modifyLayer(2,4)
-        self.modifyLayer(9,1)
-    else:
-        self.modifyLayer(2,1)
+if not self.isMouthBound():
+    self.modifyLayer(21, self.expressionArray[0] - 1)
 else:
-    if self.hasWristWebbing:
-        self.modifyLayer(8,0)
-    if self.hasMittens:
-        self.modifyLayer(9,0)
-    self.modifyLayer(2,0)
+    self.modifyLayer(21, -1)
 
-# mummified material
-if self.mummifiedMaterial() == "web" and self.cocoonType != 0:
-    self.modifyLayer(3,0)
+if not self.isEyesBound():
+    self.modifyLayer(22, self.expressionArray[1] - 1)
+else:
+    self.modifyLayer(22, -1)
 
-# ground trap
-if self.stuckToGround:
-    self.modifyLayer(4,0)
+self.modifyLayer(24, self.expressionArray[2] - 1)
 
-# legs bound
-if self.legsMaterial() == "web" and self.cocoonType != 0:
-    self.modifyLayer(5,0)
-    self.modifyLayer(6,0)
+# Binding layers
+self.modifyLayer(3, -1) # legs
+self.modifyLayer(11, -1) # arms
+self.modifyLayer(23, -1) # eyes
+self.modifyLayer(25, -1) #mouth
 
-    if self.upsideDown:
-        self.modifyLayer(7,0)
-elif self.kneesBound:
-    self.modifyLayer(5,1)
+self.shoesModifier = 1 if self.hasShoes else 0
+self.crotchRopeModifier = 2 if self.hasCrotchRope() else 0
+
+if self.hasCrotchRope():
+    self.modifyLayer(9, 0)
+    self.modifyLayer(5, 1)
+
+if self.isLegsBound():
+    self.modifyLayer(2, 4 + self.shoesModifier + self.crotchRopeModifier)
+    self.modifyLayer(3, 0)
+    self.modifyLayer(6, 4 + self.shoesModifier + self.crotchRopeModifier)
+    self.modifyLayer(7, 3)
+    self.modifyLayer(8, 2)
+
+    if self.hasCrotchRope():
+        self.modifyLayer(7, 4)
+        self.modifyLayer(8, 3)
+
+    #if (hasOuter) this.modifyLayer(15, 1); # Commented out in original JS
+else:
+    self.modifyLayer(2, 0 + self.shoesModifier + self.crotchRopeModifier)
+    self.modifyLayer(6, 0 + self.shoesModifier + self.crotchRopeModifier)
+    self.modifyLayer(7, 0)
+    self.modifyLayer(8, 0)
+
+    if self.hasCrotchRope():
+        self.modifyLayer(7, 2)
+        self.modifyLayer(8, 1)
+
+    #if (hasOuter) this.modifyLayer(15, 0); # Commented out in original JS
+
+# do stuff like this later:
+# if no skirt: self.modifyLayer(8, -1);
+
+# Remove tablet
+self.modifyLayer(18, -1)
+
+if self.isArmsBound() and self.armsMaterial() == "cuffs":
+    self.modifyLayer(10, 2)
+    if self.hasBra:
+        self.modifyLayer(14, 0)
+    else:
+        self.modifyLayer(12, 0)
+elif self.isArmsBound():
+    self.modifyLayer(10, 1)
+
+    if self.mittensMaterial() == "leather_binder":
+        self.modifyLayer(11, 1)
+    else:
+        self.modifyLayer(11, 0)
+
+    if self.hasBra:
+        self.modifyLayer(14, 1)
+    else:
+        self.modifyLayer(12, 1)
+
+    self.modifyLayer(16, (3 if self.hasOuter else 2))
+    self.modifyLayer(17, 2)
+else:
+    self.modifyLayer(10, 0)
+
+    if self.hasBra:
+        self.modifyLayer(14, 0)
+    else:
+        self.modifyLayer(12, 0)
+
+    self.modifyLayer(16, (1 if self.hasOuter else 0))
+    self.modifyLayer(17, 1)
+
+    if self.hasAcc2:
+        self.modifyLayer(18, 0)
+
+self.modifyLayer(32, -1)
+if self.isEyesBound():
+    if self.eyesMaterial() == "leather_blindfold":
+        if self.hasHeadwear:
+            self.modifyLayer(32, 1)
+        else:
+            self.modifyLayer(32, 3)
+    elif self.eyesMaterial() == "cloth":
+        self.modifyLayer(32, 2)
+else:
+    if self.hasAcc1 and self.mouthMaterial() != "ball_strict":
+        self.modifyLayer(32, 0)
+
+if self.isMouthBound():
+    if self.mouthMaterial() == "ball":
+        self.modifyLayer(25, 0)
+    elif self.mouthMaterial() == "cloth":
+        self.modifyLayer(25, 1)
+    elif self.mouthMaterial() == "rope":
+        self.modifyLayer(25, 2)
+    elif self.mouthMaterial() == "bit_gag":
+        self.modifyLayer(25, 3)
+    elif self.mouthMaterial() == "ball_strict":
+        self.modifyLayer(25, 0)
+        if self.eyesMaterial() == "leather_blindfold":
+            self.modifyLayer(34, 1)
+        elif self.eyesMaterial() != "leather_blindfold":
+            self.modifyLayer(34, 0)
+
+self.modifyLayer(27, -1)
+self.modifyLayer(28, -1)
+if self._sweatDropType == 1:
+    self.modifyLayer(27, 0)
+elif self._sweatDropType == 2:
+    self.modifyLayer(28, 0)
+elif self._sweatDropType == 3:
+    self.modifyLayer(27, 0)
+    self.modifyLayer(28, 0)
+
+self.modifyLayer(30, -1)
+self.modifyLayer(31, -1)
+if self._embarrassment >= 1:
+    self.modifyLayer(30, (0 if self.hasHeadwear else 1))
+if self._embarrassment >= 2:
+    self.modifyLayer(31, (0 if self.hasHeadwear else 1))
 
 # Nipples
-if self.nippleMaterial() == "caterpillars":
-    self.modifyLayer(11,0)
+if self.nippleMaterial() == "nipple_clamps":
+    self.modifyLayer(13, 0)
 
 
-# head
-if not self.isMouthBound():
-    self.modifyLayer(20,self.mouthIndex-1)
-if self.mouthMaterial() == "web_cleave":
-    self.modifyLayer(25,0)
-elif self.mouthMaterial() == "web":
-    if self.upsideDown:
-        self.modifyLayer(25,2)
-    else:
-        self.modifyLayer(25,1)
+# Remove coat
+if not self.hasOuter:
+    self.modifyLayer(17, -1)
+    self.modifyLayer(15, -1)
 
-self.modifyLayer(22,self.eyebrowsIndex-1)
-if not self.isEyesBound():
-    if self.upsideDown:
-        self.modifyLayer(21, 30 + self.eyesIndex - 1)
-    else:
-        self.modifyLayer(21,self.eyesIndex-1)
-if self.eyesMaterial() == "web":
-    if self.upsideDown:
-        self.modifyLayer(26,2)
-    else:
-        self.modifyLayer(26,0)
+# Remove legwear
+if not self.hasLegWear:
+    self.modifyLayer(6, -1)
 
-if self.hasAnger:
-    self.modifyLayer(34,0)
-if self.hasBlush:
-    self.modifyLayer(27,0)
-if self.hasFaceShadow:
-    self.modifyLayer(28,0)
-if self.hasAshen:
-    self.modifyLayer(29,0)
-if self.hasExtraBlush:
-    self.modifyLayer(30,0)
-if self.hasSweat:
-    if self.upsideDown:
-        self.modifyLayer(31,1)
-    else:
-        self.modifyLayer(31,0)
-if self.hasExtraSweat:
-    if self.upsideDown:
-        self.modifyLayer(32,1)
-    else:
-        self.modifyLayer(32,0)
+# Remove skirt and shirt
+if not self.hasInner:
+    self.modifyLayer(7, -1)
+    self.modifyLayer(8, -1)
+    self.modifyLayer(16, -1)
 
-# neck
-if self.collarMaterial() == "rune":
-    if self.mummifiedMaterial() == "web":
-        self.modifyLayer(33,1)
-    else:
+# Mittens
+if self.mittensMaterial() == "leather_binder":
+    self.modifyLayer(10,2)
+
+    if self.armsMaterial() != "rope":
+        self.modifyLayer(16,4)
+
+if self.hasDrool:
+    if self.mouthMaterial() == "ball":
         self.modifyLayer(33,0)
+    elif self.mouthMaterial() == "ball_strict":
+        self.modifyLayer(33,0)
+    elif self.mouthMaterial() == "cloth":
+        self.modifyLayer(33,1)
+    elif self.mouthMaterial() == "bit_gag":
+        self.modifyLayer(33,2)
 
-# cocoon
-if self.cocoonType == 0:
-    self.modifyLayer(37,0)
-elif self.cocoonType > 0:
-    self.modifyLayer(40,self.cocoonType-1)
+if self.collarMaterial() == "bell":
+    self.modifyLayer(29,0)
+elif self.collarMaterial() == "leash":
+    self.modifyLayer(29,1)
+
+# Some special event layers
+if self._specialBoots == "leather":
+    self.modifyLayer(3,1)
+elif self._specialBoots == "leather_chained":
+    self.modifyLayer(3,2)
+if self._specialLegwear == "belt":
+    self.modifyLayer(4,4)
+if self._specialHeadwear == "ribbon":
+    self.modifyLayer(20,1)
+if self._specialInner == "skirt_only":
+    self.modifyLayer(8,4)
+    self.modifyLayer(16,-1)
+
+# Lily hat for Secunda; only as gameplayer
+if self.gamePlayer._hasLilyCosplayHat:
+    self.modifyLayer(35, 0)
+    self.modifyLayer(36, 0)

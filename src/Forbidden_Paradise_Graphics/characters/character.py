@@ -5,6 +5,7 @@ from enum import Enum
 from PIL import Image
 from typing import Callable
 
+
 def resource_path(relative_path):
     """Get absolute path to resource, works for dev and for PyInstaller"""
     try:
@@ -119,11 +120,13 @@ class Intimate(Enum):
     NONE = ""
     BULLET_VIBE = "bullet_vibe"
 
+
 class LastBaseOutfit(Enum):
     LILY_URBAN = "lily_urban"
     LILY_BANDIT = "lily_bandit"
     LILY_BUNNY = "lily_bunny"
     LILY_SPORTS = "lily_sports"
+
 
 class CocoonType(Enum):
     NONE = '-1'
@@ -131,6 +134,27 @@ class CocoonType(Enum):
     FULL_TRANSPARENT = '1'
     FULL_HEAD_TRANSPARENT = '2'
     FULL = '3'
+
+
+class SpecialHeadwear(Enum):
+    NONE = ""
+    RIBBON = "ribbon"
+
+
+class SpecialInner(Enum):
+    NONE = ""
+    SKIRT_ONLY = "skirt_only"
+
+
+class SpecialLegwear(Enum):
+    NONE = ""
+    BELT = "belt"
+
+
+class SpecialBoots(Enum):
+    NONE = ""
+    LEATHER = "leather"
+    LEATHER_CHAINED = "leather_chained"
 
 # endregion
 
@@ -179,11 +203,18 @@ class Character:
         self.hasAcc4: bool = True
         self.hasAcc5: bool = True
 
+        self.__specialHeadwear: str = SpecialHeadwear.NONE.value
+        self.__specialInner: str = SpecialInner.NONE.value
+        self.__specialLegwear: str = SpecialLegwear.NONE.value
+        self.__specialBoots: str = SpecialBoots.NONE.value
+
         self.__grabberConfig: str = Grabber.NONE.value
-        self.__lastBaseOutfit: Callable[[], str] = lambda: LastBaseOutfit.LILY_URBAN.value
+        self.__lastBaseOutfit: Callable[[
+        ], str] = lambda: LastBaseOutfit.LILY_URBAN.value
         self.isAlter: bool = False
         self.upsideDown: bool = False
         self.__cocoonType: str = CocoonType.NONE.value
+        self.hasLilyCosplayHat: bool = False
 
         # Material attributes
         self.__mummifiedMaterial: Callable[[],
@@ -201,9 +232,12 @@ class Character:
                                           str] = lambda: Intimate.NONE.value
 
         # Dynamic properties
-        self.__isFullyMummified: Callable[[], bool] = lambda: bool(self.mummifiedMaterial())
-        self.__isMouthBound: Callable[[], bool] = lambda: bool(self.mouthMaterial())
-        self.__isEyesBound: Callable[[], bool] = lambda: bool(self.eyesMaterial())
+        self.__isFullyMummified: Callable[[], bool] = lambda: bool(
+            self.mummifiedMaterial())
+        self.__isMouthBound: Callable[[], bool] = lambda: bool(
+            self.mouthMaterial())
+        self.__isEyesBound: Callable[[], bool] = lambda: bool(
+            self.eyesMaterial())
         self.__armsAreTogether = lambda: bool(
             self.armsMaterial() or self.isFullyMummified() or self.armsBehindBackPose())
         self.__hasCrotchRope = lambda: bool(self.crotchRopeMaterial())
@@ -276,7 +310,7 @@ class Character:
     def eyesMaterial(self, value: Eyes):
         self.__eyesMaterial = lambda: value.value
         self.__isEyesBound = lambda: bool(self.eyesMaterial())
-    
+
     @property
     def isEyesBound(self) -> Callable[[], bool]:
         return self.__isEyesBound
@@ -304,10 +338,11 @@ class Character:
     @armsMaterial.setter
     def armsMaterial(self, value: Arms):
         self.__armsMaterial = lambda: value.value
-        self.__armsBehindBackPose = lambda: bool(self.armsMaterial() in ["partial_tape_mummy", "tape", "web"])
+        self.__armsBehindBackPose = lambda: bool(
+            self.armsMaterial() in ["partial_tape_mummy", "tape", "web"])
         self.__armsAreTogether = lambda: bool(
             self.armsMaterial() or self.isFullyMummified() or self.armsBehindBackPose())
-    
+
     @property
     def armsAreTogether(self) -> Callable[[], bool]:
         return self.__armsAreTogether
@@ -356,7 +391,8 @@ class Character:
     def legsMaterial(self, value: Legs):
         self.__legsMaterial = lambda: value.value
         self.__legsAreTogether = lambda: bool(self.legsMaterial())
-        self.__legsWebLikePose = lambda: bool(self.legsMaterial() in ["tape", "web"])
+        self.__legsWebLikePose = lambda: bool(
+            self.legsMaterial() in ["tape", "web"])
 
     @property
     def legsAreTogether(self) -> Callable[[], bool]:
@@ -400,7 +436,7 @@ class Character:
     def crotchRopeMaterial(self, value: CrotchRope):
         self.__crotchRopeMaterial = lambda: value.value
         self.__hasCrotchRope = lambda: bool(self.crotchRopeMaterial())
-    
+
     @property
     def hasCrotchRope(self) -> Callable[[], bool]:
         return self.__hasCrotchRope
@@ -448,12 +484,53 @@ class Character:
         self.__cocoonType = value.value
     # endregion
 
+    # region Special Headwear
+    @property
+    def specialHeadwear(self) -> str:
+        return self.__specialHeadwear
+
+    @specialHeadwear.setter
+    def specialHeadwear(self, value: SpecialHeadwear):
+        self.__specialHeadwear = value.value
+    # endregion
+
+    # region Special Inner
+    @property
+    def specialInner(self) -> str:
+        return self.__specialInner
+
+    @specialInner.setter
+    def specialInner(self, value: SpecialInner):
+        self.__specialInner = value.value
+    # endregion
+
+    # region Special Legwear
+    @property
+    def specialLegwear(self) -> str:
+        return self.__specialLegwear
+
+    @specialLegwear.setter
+    def specialLegwear(self, value: SpecialLegwear):
+        self.__specialLegwear = value.value
+    # endregion
+
+    # region Special Boots
+    @property
+    def specialBoots(self) -> str:
+        return self.__specialBoots
+
+    @specialBoots.setter
+    def specialBoots(self, value: SpecialBoots):
+        self.__specialBoots = value.value
+    # endregion
+
     def get_used_properties(self) -> list[str]:
         """
         Returns a list of properties used by this character,
         based on the centralized configuration.
         """
-        configs_path = resource_path(os.path.join("configs", "character_properties.json"))
+        configs_path = resource_path(os.path.join(
+            "configs", "character_properties.json"))
         with open(configs_path, "r") as f:
             properties = json.load(f)
         return properties.get(self.__class__.__name__, [])

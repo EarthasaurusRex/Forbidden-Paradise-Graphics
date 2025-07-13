@@ -352,5 +352,55 @@
             "RED_PLANT",
             "SANDBAG"
         ]
+    },
+    "Secunda": {
+        "mouthMaterial": [
+            "NONE",
+            "BALL",
+            "BALL_STRICT",
+            "BIT_GAG",
+            "CLOTH",
+            "ROPE"
+        ],
+        "eyesMaterial": [
+            "NONE",
+            "CLOTH",
+            "LEATHER_BLINDFOLD"
+        ],
+        "collarMaterial": [
+            "NONE",
+            "BELL",
+            "LEASH"
+        ],
+        "armsMaterial": [
+            "NONE",
+            "CUFFS",
+            "ROPE"
+        ],
+        "mittensMaterial": [
+            "NONE",
+            "LEATHER_BINDER"
+        ],
+        "nippleMaterial": [
+            "NONE",
+            "NIPPLE_CLAMPS"
+        ],
+        "specialBoots": [
+            "NONE",
+            "LEATHER",
+            "LEATHER_CHAINED"
+        ],
+        "specialHeadwear": [
+            "NONE",
+            "RIBBON"
+        ],
+        "specialInner": [
+            "NONE",
+            "SKIRT_ONLY"
+        ],
+        "specialLegwear": [
+            "NONE",
+            "BELT"
+        ]
     }
 }
