@@ -126,6 +126,7 @@ class LastBaseOutfit(Enum):
     LILY_SPORTS = "lily_sports"
 
 class CocoonType(Enum):
+    NONE = '-1'
     PARIAL = '0'
     FULL_TRANSPARENT = '1'
     FULL_HEAD_TRANSPARENT = '2'
@@ -182,7 +183,7 @@ class Character:
         self.__lastBaseOutfit: Callable[[], str] = lambda: LastBaseOutfit.LILY_URBAN.value
         self.isAlter: bool = False
         self.upsideDown: bool = False
-        self.__cocoonType: str = CocoonType.PARIAL.value
+        self.__cocoonType: str = CocoonType.NONE.value
 
         # Material attributes
         self.__mummifiedMaterial: Callable[[],
