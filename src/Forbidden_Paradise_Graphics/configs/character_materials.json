@@ -1,4 +1,65 @@
 {
+    "LilyBandit": {
+        "mummifiedMaterial": [
+            "NONE",
+            "TAPE",
+            "WEB"
+        ],
+        "mouthMaterial": [
+            "NONE",
+            "BALL",
+            "BALL_BIG",
+            "BALL_STRICT",
+            "CLOTH",
+            "ROPE",
+            "TAPE",
+            "WEB"
+        ],
+        "eyesMaterial": [
+            "NONE",
+            "CLOTH",
+            "LEATHER_BLINDFOLD",
+            "ROPE",
+            "WEB"
+        ],
+        "collarMaterial": [
+            "NONE",
+            "BELL",
+            "RUNE"
+        ],
+        "armsMaterial": [
+            "NONE",
+            "REGEN_VINES",
+            "ROPE",
+            "TAPE",
+            "VINES",
+            "WEB"
+        ],
+        "legsMaterial": [
+            "NONE",
+            "REGEN_VINES",
+            "ROPE",
+            "TAPE",
+            "VINES",
+            "WEB"
+        ],
+        "crotchRopeMaterial": [
+            "NONE",
+            "REGEN_VINES",
+            "ROPE",
+            "VINES"
+        ],
+        "grabberConfig": [
+            "NONE",
+            "BOSSPILLAR",
+            "CATERPILLAR",
+            "HUMAN",
+            "PLANT",
+            "POLE",
+            "RED_PLANT",
+            "SANDBAG"
+        ]
+    },
     "LilyBunny": {
         "mummifiedMaterial": [
             "NONE",
@@ -55,7 +116,16 @@
             "ROPE",
             "VINES"
         ],
-        "grabberConfig": ["NONE", "BOSSPILLAR", "CATERPILLAR", "HUMAN", "PLANT", "POLE", "ROPE_WALK", "SANDBAG"]
+        "grabberConfig": [
+            "NONE",
+            "BOSSPILLAR",
+            "CATERPILLAR",
+            "HUMAN",
+            "PLANT",
+            "POLE",
+            "ROPE_WALK",
+            "SANDBAG"
+        ]
     },
     "LilySports": {
         "mummifiedMaterial": [
@@ -111,7 +181,15 @@
             "ROPE",
             "VINES"
         ],
-        "grabberConfig": ["NONE", "BOSSPILLAR", "CATERPILLAR", "HUMAN", "PLANT", "POLE", "SANDBAG"]
+        "grabberConfig": [
+            "NONE",
+            "BOSSPILLAR",
+            "CATERPILLAR",
+            "HUMAN",
+            "PLANT",
+            "POLE",
+            "SANDBAG"
+        ]
     },
     "LilyUrban": {
         "mummifiedMaterial": [
@@ -176,6 +254,15 @@
             "NONE",
             "BULLET_VIBE"
         ],
-        "grabberConfig": ["NONE", "BOSSPILLAR", "CATERPILLAR", "HUMAN", "PLANT", "POLE", "RED_PLANT", "SANDBAG"]
+        "grabberConfig": [
+            "NONE",
+            "BOSSPILLAR",
+            "CATERPILLAR",
+            "HUMAN",
+            "PLANT",
+            "POLE",
+            "RED_PLANT",
+            "SANDBAG"
+        ]
     }
 }

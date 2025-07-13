@@ -163,6 +163,8 @@ class Character:
         self.hasAcc1: bool = True
         self.hasAcc2: bool = True
         self.hasAcc3: bool = True
+        self.hasAcc4: bool = True
+        self.hasAcc5: bool = True
 
         self.__grabberConfig: str = Grabber.NONE.value
 

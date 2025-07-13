@@ -374,4 +374,4 @@ class LilyBunny(Character):
                 self.modifyLayer(48,1)
 
         # Set this back to -1. Do not use this layer as it does not seem to actually fix the aliasing problem.
-        self.modifyLayer(8,-1)
+        # self.modifyLayer(8,-1)
