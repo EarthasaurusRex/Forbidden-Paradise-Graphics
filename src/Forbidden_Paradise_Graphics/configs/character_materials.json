@@ -161,6 +161,35 @@
             "LILY_SPORTS"
         ]
     },
+    "LilyEvent2": {
+        "mouthMaterial": [
+            "NONE",
+            "BALL",
+            "BALL_BIG",
+            "BALL_STRICT",
+            "MOUTH_MASK"
+        ],
+        "eyesMaterial": [
+            "NONE",
+            "LEATHER_BLINDFOLD"
+        ],
+        "collarMaterial": [
+            "NONE",
+            "BELL"
+        ],
+        "mittensMaterial": [
+            "NONE",
+            "LEATHER_BINDER"
+        ],
+        "nippleMaterial": [
+            "NONE",
+            "NIPPLE_CLAMPS"
+        ],
+        "grabberConfig": [
+            "NONE",
+            "HUMAN"
+        ]
+    },
     "LilySports": {
         "mummifiedMaterial": [
             "NONE",

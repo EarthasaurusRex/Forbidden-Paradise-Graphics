@@ -1,5 +1,4 @@
 import os
-import sys
 from Forbidden_Paradise_Graphics.characters import Character
 from Forbidden_Paradise_Graphics.characters.character import resource_path
 

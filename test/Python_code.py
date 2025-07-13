@@ -1,159 +1,110 @@
-isCat = self.hasAcc2
-baseOutfit = self.lastBaseOutfit()
+self.legsPose = (1 if self.hasAcc1 else 0)
+self.hasDecorativeLegCollars = self.hasLegWear
+self.wearingBelt = self.hasPanties
+self.legsChained = self.hasAcc2
 
-# Enemy
-if self.grabberConfig == "human":
-    self.modifyLayer(0,0)
+self.fullShirt = self.hasOuter
+self.noRipping = self.hasInner
+self.hasShirt = self.hasBra
 
-    if self.armsAreTogether():
-        if self.hasOuter:
-            self.modifyLayer(32,7)
-        elif self.hasInner:
-            self.modifyLayer(32,6)
-        elif self.hasBra:
-            self.modifyLayer(32,5)
-        else:
-            self.modifyLayer(32,4)
-    else:
-        if self.hasOuter:
-            self.modifyLayer(32,3)
-        elif self.hasInner:
-            self.modifyLayer(32,2)
-        elif self.hasBra:
-            self.modifyLayer(32,1)
-        else:
-            self.modifyLayer(32,0)
+if self.legsPose == 0:
+    # legs base
+    self.modifyLayer(1,0)
 
+    # shoes
+    if self.hasShoes:
+        self.modifyLayer(2,0)
+        self.modifyLayer(3,0)
 
-# Tripped
-if self.isGrounded():
-    self.modifyLayer(13,1)
-    if isCat:
-        self.modifyLayer(1,3)
-else:
-    self.modifyLayer(3,0) # leg belt
+    # belt
+    if self.wearingBelt:
+        self.modifyLayer(4,0)
 
-    if isCat:
-        self.modifyLayer(1,4)
-    else:
-        # Legs area
-        if self.hasShoes:
-            self.modifyLayer(1,1) # leg base with boots
-        else:
-            self.modifyLayer(1,0)
+    # leg bindings
+    if self.hasDecorativeLegCollars:
+        self.modifyLayer(5,0)
+    if self.legsChained:
+        self.modifyLayer(5,1)
+elif self.legsPose == 1:
+    # legs base
+    self.modifyLayer(1,1)
 
-        # Has legs chains
-        if self.hasAcc1:
-            self.modifyLayer(1,2)
+    # shoes
+    if self.hasShoes:
+        self.modifyLayer(2,1)
+        self.modifyLayer(3,1)
 
+    # belt
+    if self.wearingBelt:
+        self.modifyLayer(4,2)
+
+    # leg bindings
+    if self.hasDecorativeLegCollars:
+        self.modifyLayer(5,2)
+    if self.legsChained:
+        self.modifyLayer(5,3)
 
 # Arms
-if self.armsAreTogether():
-    self.modifyLayer(4,1) # arms bound
-    if self.mittensMaterial() == "leather_binder":
-        self.modifyLayer(5,0) # arms mittened
+self.armsPose = 0
+if self.armsAreTogether() or self.armsBehindBackPose():
+    self.armsPose = 1 # arms behind back
 else:
-    self.modifyLayer(4,0) # arms visible
+    self.armsPose = 0 # arms free
 
-self.modifyLayer(6,0) # harness
+self.shirtState = (0 if self.noRipping else 2) + (0 if self.fullShirt else 1)
 
-# Hair
-if self.isAlter:
-    self.modifyLayer(7,1)
-else:
-    if baseOutfit:
-        idToIndex = {
-            "lily_urban": 0,
-            "lily_bandit": 2,
-            "lily_bunny": 3,
-            "lily_sports": 4,
-        }.get(baseOutfit)
+self.modifyLayer(8,self.armsPose) # arms pose
 
-        if idToIndex is not None:
-            self.modifyLayer(7,idToIndex)
+if self.hasShirt:
+    if self.fullShirt:
+        self.modifyLayer(10, 0) # shirt shade
+        if not self.noRipping:
+            self.modifyLayer(11, 0) # shirt shade
     else:
-        self.modifyLayer(7,0)
+        self.modifyLayer(10, 1) # shirt shade
+        if not self.noRipping:
+            self.modifyLayer(11, 1) # shirt shade
+    self.modifyLayer(12,self.armsPose + self.shirtState * 3) # shirt
 
+# arm bindings
+if self.armsAreTogether():
+    if self.armsMaterial() == "metal_cuffs":
+        self.modifyLayer(15,0)
 
 # Nipples
 if self.nippleMaterial() == "nipple_clamps":
-    self.modifyLayer(8, 0)
-
-# Inner
-if self.hasInner:
-    if self.armsAreTogether():
-        self.modifyLayer(9,1)
-    else:
-        self.modifyLayer(9,0)
-
-# Outer
-if self.hasOuter:
-    if self.armsAreTogether():
-        if self.hasInner:
-            self.modifyLayer(11,2)
-        else:
-            self.modifyLayer(11,0)
-    else:
-        self.modifyLayer(11,1)
-
-    if self.hasInner:
-        if self.armsAreTogether():
-            self.modifyLayer(10,2)
-        else:
-            self.modifyLayer(10,1)
-    else:
-        self.modifyLayer(10,0)
+    self.modifyLayer(17, 0)
 
 # face
 if not self.isMouthBound():
-    self.modifyLayer(15,self.mouthIndex-1)
+    self.modifyLayer(24,self.mouthIndex-1)
 
-if self.mouthMaterial() == "ball_big" or self.mouthMaterial() == "ball_strict":
-    self.modifyLayer(16,0)
-    if self.eyesMaterial() == "leather_blindfold":
-        self.modifyLayer(29,1)
-elif self.mouthMaterial() == "ball":
-    self.modifyLayer(16,1)
-elif self.mouthMaterial() == "mouth_mask":
-    self.modifyLayer(28,0)
-
+if self.mouthMaterial() == "cloth":
+    self.modifyLayer(25,0)
 if self.hasDrool:
-    if self.mouthMaterial() == "ball_big" or self.mouthMaterial() == "ball_strict":
-        self.modifyLayer(17,0)
-    elif self.mouthMaterial() == "ball":
-        self.modifyLayer(17,1)
+    if self.mouthMaterial() == "cloth":
+        self.modifyLayer(26,0)
 
-self.modifyLayer(18,self.eyebrowsIndex-1)
+self.modifyLayer(27,self.eyebrowsIndex-1)
 if not self.isEyesBound():
-    self.modifyLayer(19,self.eyesIndex-1)
+    self.modifyLayer(28,self.eyesIndex-1)
 
-if self.eyesMaterial() == "leather_blindfold":
-    self.modifyLayer(27,0)
+if self.eyesMaterial() == "cloth":
+    self.modifyLayer(29,0)
 
 if self.hasBlush:
-    self.modifyLayer(21,0)
+    self.modifyLayer(31,0)
 if self.hasFaceShadow:
-    self.modifyLayer(22,0)
+    self.modifyLayer(32,0)
 if self.hasAshen:
-    self.modifyLayer(23,0)
+    self.modifyLayer(33,0)
 if self.hasExtraBlush:
-    self.modifyLayer(24,0)
+    self.modifyLayer(34,0)
 if self.hasSweat:
-    self.modifyLayer(25,0)
+    self.modifyLayer(35,0)
 if self.hasExtraSweat:
-    self.modifyLayer(26,0)
+    self.modifyLayer(36,0)
 
 # neck
-if self.collarMaterial() == "bell":
-    self.modifyLayer(30,0)
-elif self.isAlter:
-    self.modifyLayer(30,1)
-elif self.hasAcc4:
-    self.modifyLayer(8,0)
-
-# headwear
-if self.hasHeadwear:
-    if isCat:
-        self.modifyLayer(34,1)
-    else:
-        self.modifyLayer(34,0)
+if self.collarMaterial() == "rune":
+    self.modifyLayer(39,0)
