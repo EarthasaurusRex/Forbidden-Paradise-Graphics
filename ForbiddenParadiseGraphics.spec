@@ -5,7 +5,7 @@ a = Analysis(
     ['src\\Forbidden_Paradise_Graphics\\__main__.py'],
     pathex=[],
     binaries=[],
-    datas=[('src/Forbidden_Paradise_Graphics/img', 'img'), ('src/Forbidden_Paradise_Graphics/configs', 'configs')],
+    datas=[('src/Forbidden_Paradise_Graphics/img', 'img'), ('src/Forbidden_Paradise_Graphics/configs', 'configs'), ('src/Forbidden_Paradise_Graphics/characters', 'characters')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
