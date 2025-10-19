@@ -29,6 +29,7 @@
         ],
         "armsMaterial": [
             "NONE",
+            "GLOW",
             "REGEN_VINES",
             "ROPE",
             "TAPE",
@@ -37,6 +38,7 @@
         ],
         "legsMaterial": [
             "NONE",
+            "GLOW",
             "REGEN_VINES",
             "ROPE",
             "TAPE",
@@ -45,6 +47,7 @@
         ],
         "crotchRopeMaterial": [
             "NONE",
+            "GLOW",
             "REGEN_VINES",
             "ROPE",
             "VINES"

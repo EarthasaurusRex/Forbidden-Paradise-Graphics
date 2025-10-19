@@ -121,6 +121,13 @@ class LilyBandit(Character):
                             self.modifyLayer(20,8)
                         else:
                             self.modifyLayer(20,9)
+                    elif self.legsMaterial() == "glow":
+                        if self.hasShoes:
+                            self.modifyLayer(20,11)
+                            self.modifyLayer(1,2)
+                        else:
+                            self.modifyLayer(20,10)
+                            self.modifyLayer(1,0)
 
                     if self.hasCrotchRope():
                         if self.hasLegWear:
@@ -139,6 +146,9 @@ class LilyBandit(Character):
                         self.modifyLayer(17,3)
                     elif self.crotchRopeMaterial() == "regen_vines":
                         self.modifyLayer(17,5)
+                    elif self.crotchRopeMaterial() == "glow":
+                        self.modifyLayer(17,6)
+                        self.modifyLayer(2,0)
                 else:
                     # standing, legs free
                     self.modifyLayer(2,0)
@@ -183,6 +193,9 @@ class LilyBandit(Character):
                         self.modifyLayer(17,2)
                     elif self.crotchRopeMaterial() == "regen_vines":
                         self.modifyLayer(17,4)
+                    elif self.crotchRopeMaterial() == "glow":
+                        self.modifyLayer(17,7)
+                        self.modifyLayer(2,2)
             elif not self.legsAreTogether():
                 # trip 1
                 self.modifyLayer(2,2)
@@ -224,6 +237,9 @@ class LilyBandit(Character):
                     self.modifyLayer(17,3)
                 elif self.crotchRopeMaterial() == "regen_vines":
                     self.modifyLayer(17,5)
+                elif self.crotchRopeMaterial() == "glow":
+                    self.modifyLayer(17,6)
+                    self.modifyLayer(2,0)
             else:
                 # trip 2
                 self.modifyLayer(22,0)
@@ -253,6 +269,9 @@ class LilyBandit(Character):
                     self.modifyLayer(25,1)
                 elif self.crotchRopeMaterial() == "regen_vines":
                     self.modifyLayer(25,2)
+                elif self.crotchRopeMaterial() == "glow":
+                    self.modifyLayer(25,3)
+                    self.modifyLayer(2,1)
 
                 if self.legsMaterial() == "rope":
                     if self.hasShoes:
@@ -289,6 +308,13 @@ class LilyBandit(Character):
                         self.modifyLayer(27,10)
                     else:
                         self.modifyLayer(27,9)
+                elif self.legsMaterial() == "glow":
+                    if self.hasShoes:
+                        self.modifyLayer(27,13)
+                        self.modifyLayer(1,3)
+                    else:
+                        self.modifyLayer(27,12)
+                        self.modifyLayer(1,1)
 
         # Arms area
         if self.armsAreTogether():
@@ -346,6 +372,9 @@ class LilyBandit(Character):
                     self.modifyLayer(21,9)
                 else:
                     self.modifyLayer(21,8)
+            elif self.armsMaterial() == "glow":
+                self.modifyLayer(21,10)
+                self.modifyLayer(0,0)
         else:
             # Free arms
             self.modifyLayer(3,0)

@@ -21,7 +21,7 @@ def resource_path(relative_path):
 
 class Grabber(Enum):
     NONE = ""
-    BOSS_PILLAR = "bossPillar"
+    BOSSPILLAR = "bossPillar"
     CATERPILLAR = "caterpillar"
     HUMAN = "human"
     PLANT = "plant"
@@ -79,6 +79,7 @@ class Collar(Enum):
 class Arms(Enum):
     NONE = ""
     CUFFS = "cuffs"
+    GLOW = "glow"
     METAL_CUFFS = "metal_cuffs"
     PARTIAL_TAPE_MUMMY = "partial_tape_mummy"
     REGEN_VINES = "regen_vines"
@@ -102,6 +103,7 @@ class Nipples(Enum):
 
 class Legs(Enum):
     NONE = ""
+    GLOW = "glow"
     REGEN_VINES = "regen_vines"
     ROPE = "rope"
     TAPE = "tape"
@@ -111,6 +113,7 @@ class Legs(Enum):
 
 class CrotchRope(Enum):
     NONE = ""
+    GLOW = "glow"
     REGEN_VINES = "regen_vines"
     ROPE = "rope"
     VINES = "vines"
