@@ -13,7 +13,7 @@ import sys
 import importlib.util
 import inspect
 
-from Forbidden_Paradise_Graphics.characters.character import Character, Arms, Collar, CrotchRope, Eyes, Grabber, LastBaseOutfit, Intimate, Legs, Mittens, Mouth, Mummified, Nipples
+from Forbidden_Paradise_Graphics.characters.character import Character, CocoonType, Arms, Collar, CrotchRope, Eyes, Grabber, LastBaseOutfit, Intimate, Legs, Mittens, Mouth, Mummified, Nipples, SpecialBoots, SpecialHeadwear, SpecialInner, SpecialLegwear
 
 def resource_path(relative_path):
     """Get absolute path to resource, works for dev and for PyInstaller"""
@@ -72,7 +72,12 @@ class CharacterEditor:
             "crotchRopeMaterial": CrotchRope,
             "intimateMaterial": Intimate,
             "grabberConfig": Grabber,
-            "lastBaseOutfit": LastBaseOutfit
+            "lastBaseOutfit": LastBaseOutfit,
+            "cocoonType": CocoonType,
+            "specialBoots": SpecialBoots,
+            "specialHeadwear": SpecialHeadwear,
+            "specialInner": SpecialInner,
+            "specialLegwear": SpecialLegwear
         }
 
         # Load character material configurations
@@ -289,6 +294,7 @@ class CharacterEditor:
                 if isinstance(actual_value, str):
                     var.set(actual_value)
                 else:
+                    print(actual_value)
                     raise ValueError(f"Value is not a str ({type(actual_value)})")
             elif isinstance(var, tk.BooleanVar):
                 if isinstance(actual_value, bool):

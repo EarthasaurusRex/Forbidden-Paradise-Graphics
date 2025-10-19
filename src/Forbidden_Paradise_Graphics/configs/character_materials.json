@@ -148,6 +148,7 @@
             "LEATHER_BINDER"
         ],
         "nippleMaterial": [
+            "NONE",
             "NIPPLE_CLAMPS"
         ],
         "grabberConfig": [
@@ -159,6 +160,59 @@
             "LILY_BANDIT",
             "LILY_BUNNY",
             "LILY_SPORTS"
+        ]
+    },
+    "LilyEvent2": {
+        "mouthMaterial": [
+            "NONE",
+            "CLOTH"
+        ],
+        "eyesMaterial": [
+            "NONE",
+            "CLOTH"
+        ],
+        "collarMaterial": [
+            "NONE",
+            "RUNE"
+        ],
+        "armsMaterial": [
+            "NONE",
+            "METAL_CUFFS"
+        ],
+        "nippleMaterial": [
+            "NONE",
+            "NIPPLE_CLAMPS"
+        ]
+    },
+    "LilyEvent3": {
+        "mummifiedMaterial": [
+            "NONE",
+            "WEB"
+        ],
+        "mouthMaterial": [
+            "NONE",
+            "WEB",
+            "WEB_CLEAVE"
+        ],
+        "eyesMaterial": [
+            "NONE",
+            "WEB"
+        ],
+        "collarMaterial": [
+            "NONE",
+            "RUNE"
+        ],
+        "mittensMaterial": [
+            "NONE",
+            "WEB"
+        ],
+        "nippleMaterial": [
+            "NONE",
+            "CATERPILLARS"
+        ],
+        "legsMaterial": [
+            "NONE",
+            "WEB"
         ]
     },
     "LilySports": {
@@ -297,6 +351,56 @@
             "POLE",
             "RED_PLANT",
             "SANDBAG"
+        ]
+    },
+    "Secunda": {
+        "mouthMaterial": [
+            "NONE",
+            "BALL",
+            "BALL_STRICT",
+            "BIT_GAG",
+            "CLOTH",
+            "ROPE"
+        ],
+        "eyesMaterial": [
+            "NONE",
+            "CLOTH",
+            "LEATHER_BLINDFOLD"
+        ],
+        "collarMaterial": [
+            "NONE",
+            "BELL",
+            "LEASH"
+        ],
+        "armsMaterial": [
+            "NONE",
+            "CUFFS",
+            "ROPE"
+        ],
+        "mittensMaterial": [
+            "NONE",
+            "LEATHER_BINDER"
+        ],
+        "nippleMaterial": [
+            "NONE",
+            "NIPPLE_CLAMPS"
+        ],
+        "specialBoots": [
+            "NONE",
+            "LEATHER",
+            "LEATHER_CHAINED"
+        ],
+        "specialHeadwear": [
+            "NONE",
+            "RIBBON"
+        ],
+        "specialInner": [
+            "NONE",
+            "SKIRT_ONLY"
+        ],
+        "specialLegwear": [
+            "NONE",
+            "BELT"
         ]
     }
 }

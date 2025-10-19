@@ -1,13 +1,15 @@
 import re
 import json
 
-with open("src/Forbidden_Paradise_Graphics/characters/lily_event_1.py", 'r') as f:
+with open("src/Forbidden_Paradise_Graphics/characters/secunda.py", 'r') as f:
     content = f.read()
 
     materials = set()
 
     matches = re.findall(r'self\.(\w+?)[^\w]', content)
     for match in matches:
+        if match in ["image_path", "layers", "modifyLayer"]:
+            continue
         materials.add(match)
     
     materials = sorted(materials)
