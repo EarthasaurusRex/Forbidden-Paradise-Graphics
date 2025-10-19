@@ -1,5 +1,6 @@
 {
     "DEFAULT_PROPERTY_ORDER": [
+        "hypnoStacks",
         "upsideDown",
         "lastBaseOutfit",
         "isAlter",

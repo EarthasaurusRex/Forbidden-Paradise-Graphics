@@ -33,12 +33,14 @@ class Grabber(Enum):
 
 class Mummified(Enum):
     NONE = ""
+    APHRO_WEB = "aphro_web"
     TAPE = "tape"
     WEB = "web"
 
 
 class Mouth(Enum):
     NONE = ""
+    APHRO_WEB = "aphro_web"
     BALL = "ball"
     BALL_BIG = "ball_big"
     BALL_CLOTH = "ball_cloth"
@@ -57,6 +59,7 @@ class Mouth(Enum):
 
 class Eyes(Enum):
     NONE = ""
+    APHRO_WEB = "aphro_web"
     CLOTH = "cloth"
     LEATHER_BLINDFOLD = "leather_blindfold"
     ROPE = "rope"
@@ -78,12 +81,14 @@ class Collar(Enum):
 
 class Arms(Enum):
     NONE = ""
+    APHRO_WEB = "aphro_web"
     CUFFS = "cuffs"
     GLOW = "glow"
     METAL_CUFFS = "metal_cuffs"
     PARTIAL_TAPE_MUMMY = "partial_tape_mummy"
     REGEN_VINES = "regen_vines"
     ROPE = "rope"
+    STRAITJACKET = "straitjacket"
     TAPE = "tape"
     VINES = "vines"
     WEB = "web"
@@ -103,6 +108,7 @@ class Nipples(Enum):
 
 class Legs(Enum):
     NONE = ""
+    APHRO_WEB = "aphro_web"
     GLOW = "glow"
     REGEN_VINES = "regen_vines"
     ROPE = "rope"
@@ -129,6 +135,7 @@ class LastBaseOutfit(Enum):
     LILY_BANDIT = "lily_bandit"
     LILY_BUNNY = "lily_bunny"
     LILY_SPORTS = "lily_sports"
+    LILY_EVENT_X = "lily_event_x"
 
 
 class CocoonType(Enum):
@@ -218,6 +225,8 @@ class Character:
         self.upsideDown: bool = False
         self.__cocoonType: str = CocoonType.NONE.value
         self.hasLilyCosplayHat: bool = False
+
+        self.hypnoStacks: int = 0
 
         # Material attributes
         self.__mummifiedMaterial: Callable[[],
@@ -342,7 +351,7 @@ class Character:
     def armsMaterial(self, value: Arms):
         self.__armsMaterial = lambda: value.value
         self.__armsBehindBackPose = lambda: bool(
-            self.armsMaterial() in ["partial_tape_mummy", "tape", "web"])
+            self.armsMaterial() in ["aphro_web", "partial_tape_mummy", "tape", "web"])
         self.__armsAreTogether = lambda: bool(
             self.armsMaterial() or self.isFullyMummified() or self.armsBehindBackPose())
 
@@ -395,7 +404,7 @@ class Character:
         self.__legsMaterial = lambda: value.value
         self.__legsAreTogether = lambda: bool(self.legsMaterial())
         self.__legsWebLikePose = lambda: bool(
-            self.legsMaterial() in ["tape", "web"])
+            self.legsMaterial() in ["aphro_web", "tape", "web"])
 
     @property
     def legsAreTogether(self) -> Callable[[], bool]:
@@ -559,12 +568,32 @@ class Character:
             print("No layers defined. Please add layers before rendering.")
             return
 
-        # Base layer
-        base_layer = list(self.layers.values())[0]
-        base_image = Image.open(base_layer).convert("RGBA")
-        # Apply additional layers
-        for layer_path in list(self.layers.values())[1:]:
-            layer_image = Image.open(layer_path).convert("RGBA")
-            base_image.alpha_composite(layer_image)
+        # Load all layer images first
+        layer_images = [Image.open(p).convert("RGBA") for p in self.layers.values()]
 
-        return base_image
+        if not layer_images:
+            return
+
+        # Determine the max dimensions for the final canvas
+        max_width = max(img.width for img in layer_images)
+        max_height = max(img.height for img in layer_images)
+
+        # Create the final composite image with a transparent background
+        composite_image = Image.new("RGBA", (max_width, max_height))
+
+        # Process each layer
+        for img in layer_images:
+            # Create a temporary canvas of the same size as the final image
+            temp_canvas = Image.new("RGBA", (max_width, max_height))
+            
+            # Calculate position for center-alignment
+            paste_x = (max_width - img.width) // 2
+            paste_y = (max_height - img.height) // 2
+            
+            # Paste the current layer onto the temporary canvas at the correct position
+            temp_canvas.paste(img, (paste_x, paste_y))
+            
+            # Alpha composite the temporary canvas onto the main composite image
+            composite_image = Image.alpha_composite(composite_image, temp_canvas)
+
+        return composite_image

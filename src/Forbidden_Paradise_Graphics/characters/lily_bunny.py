@@ -82,6 +82,9 @@ class LilyBunny(Character):
                         self.modifyLayer(18,2)
                     elif self.legsMaterial() == "tape":
                         self.modifyLayer(18,5)
+                    elif self.legsMaterial() == "glow":
+                        self.modifyLayer(18,7)
+                        self.modifyLayer(1,0)
                 else:
                     # standing, legs free
                     self.modifyLayer(1,0)
@@ -113,6 +116,9 @@ class LilyBunny(Character):
                     self.modifyLayer(19,1)
                 elif self.crotchRopeMaterial() == "regen_vines":
                     self.modifyLayer(19,2)
+                elif self.crotchRopeMaterial() == "glow":
+                    self.modifyLayer(19,3)
+                    self.modifyLayer(2,0)
             elif not self.legsAreTogether():
                 # trip 1
                 isTrip1 = True
@@ -153,6 +159,9 @@ class LilyBunny(Character):
                     self.modifyLayer(19,1)
                 elif self.crotchRopeMaterial() == "regen_vines":
                     self.modifyLayer(19,2)
+                elif self.crotchRopeMaterial() == "glow":
+                    self.modifyLayer(19,3)
+                    self.modifyLayer(2,0)
             else:
                 # trip 2
 
@@ -184,6 +193,9 @@ class LilyBunny(Character):
                     self.modifyLayer(27,1)
                 elif self.crotchRopeMaterial() == "regen_vines":
                     self.modifyLayer(27,2)
+                elif self.crotchRopeMaterial() == "glow":
+                    self.modifyLayer(27,3)
+                    self.modifyLayer(2,1)
 
                 if self.legsMaterial() == "rope":
                     self.modifyLayer(29,0)
@@ -203,6 +215,9 @@ class LilyBunny(Character):
                         self.modifyLayer(29,6)
                     else:
                         self.modifyLayer(29,5)
+                elif self.legsMaterial() == "glow":
+                    self.modifyLayer(29,7)
+                    self.modifyLayer(1,1)
 
         trip1Mod = 1 if isTrip1 else 0
 
@@ -262,6 +277,8 @@ class LilyBunny(Character):
                     self.modifyLayer(17,5)
             elif self.armsMaterial() == "partial_tape_mummy":
                 self.modifyLayer(17,9)
+            elif self.armsMaterial() == "glow":
+                self.modifyLayer(17,11)
         else:
             # Free arms
             self.modifyLayer(2,0+upperBodyMod)
@@ -287,6 +304,10 @@ class LilyBunny(Character):
                 self.modifyLayer(31,1)
             else:
                 self.modifyLayer(31,0)
+
+        # Nipples
+        if self.nippleMaterial() == "nipple_clamps":
+            self.modifyLayer(20, 0)
 
         # head
         if self.hasAnger:
@@ -373,4 +394,4 @@ class LilyBunny(Character):
                 self.modifyLayer(48,1)
 
         # Set this back to -1. Do not use this layer as it does not seem to actually fix the aliasing problem.
-        # self.modifyLayer(8,-1)
+        self.modifyLayer(8,-1)

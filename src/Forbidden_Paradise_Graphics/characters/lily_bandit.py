@@ -374,7 +374,6 @@ class LilyBandit(Character):
                     self.modifyLayer(21,8)
             elif self.armsMaterial() == "glow":
                 self.modifyLayer(21,10)
-                self.modifyLayer(0,0)
         else:
             # Free arms
             self.modifyLayer(3,0)

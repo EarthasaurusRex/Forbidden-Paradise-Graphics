@@ -15,7 +15,6 @@ class LilyEvent1(Character):
     
     @hasOuter.setter
     def hasOuter(self, value: bool):
-        print("setting to", value)
         self.__hasOuter = value
         self.armsAreTogether = not self.hasOuter
 

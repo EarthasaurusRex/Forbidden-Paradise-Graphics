@@ -67,21 +67,18 @@ class LilyUrban(Character):
                         if self.hasInner:
                             if self.isFullyMummified():
                                 pass
+                            elif "web" in self.armsMaterial() or self.armsMaterial() == "tape":
+                                self.modifyLayer(13, 6)
                             else:
-                                if (self.armsMaterial() == "web" or self.armsMaterial() == "tape"):
-                                    self.modifyLayer(13, 6)
-                                else:
-                                    self.modifyLayer(13, 2)
+                                self.modifyLayer(13, 2)
                     else:
                         if self.hasInner:
                             if self.isFullyMummified():
                                 pass
+                            elif "web" in self.armsMaterial() or self.armsMaterial() == "tape":
+                                self.modifyLayer(13, 5)
                             else:
-                                if (self.armsMaterial() == "web" or self.armsMaterial() == "tape"):
-                                    self.modifyLayer(13, 5)
-                                else:
-                                    self.modifyLayer(13, 1)
-
+                                self.modifyLayer(13, 1)
                     if self.hasLegWear:
                         if self.legsWebLikePose():
                             self.modifyLayer(4, 3)
@@ -90,31 +87,34 @@ class LilyUrban(Character):
                     if self.hasShoes:
                         if self.isFullyMummified():
                             pass
+                        elif "web" in self.legsMaterial():
+                            self.modifyLayer(9, 3)
                         else:
-                            if (self.legsMaterial() == "web"):
-                                self.modifyLayer(9, 3)
-                            else:
-                                self.modifyLayer(9, 1)
+                            self.modifyLayer(9, 1)
 
-                            if self.hasLegWear:
-                                self.modifyLayer(8, 5)
-                            else:
-                                self.modifyLayer(8, 4)
+                        if self.hasLegWear:
+                            self.modifyLayer(8, 5)
+                        else:
+                            self.modifyLayer(8, 4)
 
-                    if (self.legsMaterial() == "rope"):
+                    if self.legsMaterial() == "rope":
                         self.modifyLayer(18, 0)
-                    elif (self.legsMaterial() == "vines"):
+                    elif self.legsMaterial() == "vines":
                         self.modifyLayer(18, 1)
-                    elif (self.legsMaterial() == "regen_vines"):
+                    elif self.legsMaterial() == "regen_vines":
                         self.modifyLayer(18, 2)
-                    elif (self.legsMaterial() == "web"):
+                    elif self.legsMaterial() == "web":
                         self.modifyLayer(18, 4)
-                    elif (self.legsMaterial() == "tape"):
+                    elif self.legsMaterial() == "aphro_web":
+                        self.modifyLayer(18, 7)
+                    elif self.legsMaterial() == "tape":
                         if self.hasShoes:
                             self.modifyLayer(18, 6)
                         else:
                             self.modifyLayer(18, 5)
-
+                    elif self.legsMaterial() == "glow":
+                        self.modifyLayer(18, 8)
+                        self.modifyLayer(1, 0)
                 else:
                     # standing, legs free
                     self.modifyLayer(1, 0)
@@ -123,24 +123,20 @@ class LilyUrban(Character):
                         if self.hasInner:
                             if self.isFullyMummified():
                                 pass
+                            elif "web" in self.armsMaterial() or self.armsMaterial() == "tape":
+                                self.modifyLayer(13, 6)
                             else:
-                                if (self.armsMaterial() == "web" or self.armsMaterial() == "tape"):
-                                    self.modifyLayer(13, 6)
-                                else:
-                                    self.modifyLayer(13, 2)
-
+                                self.modifyLayer(13, 2)
                     else:
                         if self.hasInner:
                             if self.isFullyMummified():
                                 pass
+                            elif "web" in self.armsMaterial() or self.armsMaterial() == "tape":
+                                self.modifyLayer(13, 5)
+                            elif self.armsAreTogether() and self.hasOuter:
+                                self.modifyLayer(13, 1)
                             else:
-                                if (self.armsMaterial() == "web" or self.armsMaterial() == "tape"):
-                                    self.modifyLayer(13, 5)
-                                elif (self.armsAreTogether() and self.hasOuter):
-                                    self.modifyLayer(13, 1)
-                                else:
-                                    self.modifyLayer(13, 0)
-
+                                self.modifyLayer(13, 0)
                     if self.hasLegWear:
                         self.modifyLayer(4, 0)
                     if self.hasShoes:
@@ -148,6 +144,7 @@ class LilyUrban(Character):
                             self.modifyLayer(8, 1)
                         else:
                             self.modifyLayer(8, 0)
+
                         self.modifyLayer(9, 0)
 
                 if self.hasCrotchRope():
@@ -159,137 +156,145 @@ class LilyUrban(Character):
 
                 if self.isFullyMummified():
                     pass
-                else:
-                    if (self.crotchRopeMaterial() == "rope"):
-                        self.modifyLayer(14, 0)
-                    elif (self.crotchRopeMaterial() == "vines"):
-                        self.modifyLayer(14, 1)
-                    elif (self.crotchRopeMaterial() == "regen_vines"):
-                        self.modifyLayer(14, 2)
-
-            else:  # if (!this.isGrounded())
-                if not self.legsAreTogether():  # trip 1
-                    self.modifyLayer(1, 2)
+                elif self.crotchRopeMaterial() == "rope":
+                    self.modifyLayer(14, 0)
+                elif self.crotchRopeMaterial() == "vines":
+                    self.modifyLayer(14, 1)
+                elif self.crotchRopeMaterial() == "regen_vines":
+                    self.modifyLayer(14, 2)
+                elif self.crotchRopeMaterial() == "glow":
+                    self.modifyLayer(14, 4)
+                    self.modifyLayer(2, 0)
+            elif not self.legsAreTogether():
+                # trip 1
+                self.modifyLayer(1, 2)
+                if self.hasLegWear:
+                    self.modifyLayer(4, 2)
+                if self.hasShoes:
                     if self.hasLegWear:
-                        self.modifyLayer(4, 2)
-                    if self.hasShoes:
-                        if self.hasLegWear:
-                            self.modifyLayer(8, 3)
-                        else:
-                            self.modifyLayer(8, 2)
-
-                        self.modifyLayer(9, 2)
-
-                    if self.hasCrotchRope():
-                        self.modifyLayer(3, 0)
-                        if self.hasPanties:
-                            self.modifyLayer(7, 3)
-                        if self.hasInner:
-                            self.modifyLayer(12, 1)
-                            if self.isFullyMummified():
-                                pass
-                            else:
-                                if (self.armsMaterial() == "web" or self.armsMaterial() == "tape"):
-                                    self.modifyLayer(13, 8)
-                                else:
-                                    self.modifyLayer(13, 4)
-
+                        self.modifyLayer(8, 3)
                     else:
-                        if self.hasPanties:
-                            self.modifyLayer(7, 2)
-                        if self.hasInner:
-                            self.modifyLayer(12, 0)
-                            if self.isFullyMummified():
-                                pass
-                            else:
-                                if (self.armsMaterial() == "web" or self.armsMaterial() == "tape"):
-                                    self.modifyLayer(13, 7)
-                                else:
-                                    self.modifyLayer(13, 3)
+                        self.modifyLayer(8, 2)
 
-                else:  # trip 2
+                    self.modifyLayer(9, 2)
 
-                    self.modifyLayer(21, 0)
+                if self.hasCrotchRope():
+                    self.modifyLayer(3, 0)
                     if self.hasPanties:
-                        self.modifyLayer(22, 0)
-                    if self.hasLegWear:
-                        self.modifyLayer(24, 0)
-
-                    if self.hasShoes:
+                        self.modifyLayer(7, 3)
+                    if self.hasInner:
+                        self.modifyLayer(12, 1)
                         if self.isFullyMummified():
                             pass
+                        elif "web" in self.armsMaterial() or self.armsMaterial() == "tape":
+                            self.modifyLayer(13, 8)
                         else:
-                            if (self.legsMaterial() == "web"):
-                                self.modifyLayer(26, -1)
-                                self.modifyLayer(27, 1)
-                            else:
-                                if self.hasLegWear:
-                                    self.modifyLayer(26, 1)
-                                else:
-                                    self.modifyLayer(26, 0)
+                            self.modifyLayer(13, 4)
+                else:
+                    if self.hasPanties:
+                        self.modifyLayer(7, 2)
+                    if self.hasInner:
+                        self.modifyLayer(12, 0)
+                        if self.isFullyMummified():
+                            pass
+                        elif "web" in self.armsMaterial() or self.armsMaterial() == "tape":
+                            self.modifyLayer(13, 7)
+                        else:
+                            self.modifyLayer(13, 3)
 
-                                if (self.legsMaterial() == "tape"):
-                                    self.modifyLayer(27, 2)
-                                else:
-                                    self.modifyLayer(27, 0)
+                if self.isFullyMummified():
+                    pass
+                elif self.crotchRopeMaterial() == "rope":
+                    self.modifyLayer(14, 0)
+                elif self.crotchRopeMaterial() == "vines":
+                    self.modifyLayer(14, 1)
+                elif self.crotchRopeMaterial() == "regen_vines":
+                    self.modifyLayer(14, 2)
+                elif self.crotchRopeMaterial() == "glow":
+                    self.modifyLayer(14, 4)
+                    self.modifyLayer(2, 0)
+            else:
+                # trip 2
+                self.modifyLayer(21, 0)
+                if self.hasPanties:
+                    self.modifyLayer(22, 0)
+                if self.hasLegWear:
+                    self.modifyLayer(24, 0)
 
+                if self.hasShoes:
                     if self.isFullyMummified():
                         pass
+                    elif "web" in self.legsMaterial():
+                        self.modifyLayer(26, -1)
+                        self.modifyLayer(27, 1)
                     else:
-                        if (self.crotchRopeMaterial() == "rope"):
-                            self.modifyLayer(23, 0)
-                        elif (self.crotchRopeMaterial() == "vines"):
-                            self.modifyLayer(23, 1)
-                        elif (self.crotchRopeMaterial() == "regen_vines"):
-                            self.modifyLayer(23, 2)
-
-                    if (self.legsMaterial() == "rope"):
-                        self.modifyLayer(25, 0)
-                    elif (self.legsMaterial() == "vines"):
-                        self.modifyLayer(25, 1)
-                    elif (self.legsMaterial() == "regen_vines"):
-                        self.modifyLayer(25, 2)
-
-                    elif (self.legsMaterial() == "web"):
-                        self.modifyLayer(21, 1)
                         if self.hasLegWear:
-                            self.modifyLayer(24, 1)
-                        if (self.mummifiedMaterial() == "web"):
-                            self.modifyLayer(25, 4)
+                            self.modifyLayer(26, 1)
                         else:
-                            self.modifyLayer(25, 3)
+                            self.modifyLayer(26, 0)
 
-                    elif (self.legsMaterial() == "tape"):
-                        self.modifyLayer(21, 1)
-                        if self.hasLegWear:
-                            self.modifyLayer(24, 1)
-                        if (self.mummifiedMaterial() == "tape"):
-                            self.modifyLayer(25, 6)
+                        if self.legsMaterial() == "tape":
+                            self.modifyLayer(27, 2)
                         else:
-                            self.modifyLayer(25, 5)
+                            self.modifyLayer(27, 0)
 
+                if self.isFullyMummified():
+                    pass
+                elif self.crotchRopeMaterial() == "rope":
+                    self.modifyLayer(23, 0)
+                elif self.crotchRopeMaterial() == "vines":
+                    self.modifyLayer(23, 1)
+                elif self.crotchRopeMaterial() == "regen_vines":
+                    self.modifyLayer(23, 2)
+                elif self.crotchRopeMaterial() == "glow":
+                    self.modifyLayer(23, 3)
+                    self.modifyLayer(2, 1)
+
+                if self.legsMaterial() == "rope":
+                    self.modifyLayer(25, 0)
+                elif self.legsMaterial() == "vines":
+                    self.modifyLayer(25, 1)
+                elif self.legsMaterial() == "regen_vines":
+                    self.modifyLayer(25, 2)
+                elif self.legsMaterial() == "web":
+                    self.modifyLayer(21, 1)
+                    if self.hasLegWear:
+                        self.modifyLayer(24, 1)
+                    if self.mummifiedMaterial() == "web":
+                        self.modifyLayer(25, 4)
+                    else:
+                        self.modifyLayer(25, 3)
+                elif self.legsMaterial() == "tape":
+                    self.modifyLayer(21, 1)
+                    if self.hasLegWear:
+                        self.modifyLayer(24, 1)
+                    if self.mummifiedMaterial() == "tape":
+                        self.modifyLayer(25, 6)
+                    else:
+                        self.modifyLayer(25, 5)
+                elif self.legsMaterial() == "glow":
+                    self.modifyLayer(25, 7)
+                    self.modifyLayer(1, 1)
+
+                if self.isFullyMummified():
+                    self.modifyLayer(13, -1)
+                if self.hasInner:
                     if self.isFullyMummified():
-                        self.modifyLayer(13, -1)
-                    if self.hasInner:
-                        if self.isFullyMummified():
-                            pass
-                        else:
-                            if (self.armsMaterial() == "web" or self.armsMaterial() == "tape"):
-                                self.modifyLayer(13, 9)
-                            else:
-                                self.modifyLayer(13, 3)
+                        pass
+                    elif "web" in self.armsMaterial() or self.armsMaterial() == "tape":
+                        self.modifyLayer(13, 9)
+                    else:
+                        self.modifyLayer(13, 3)
         # endregion
 
         # region Arms
         if self.armsAreTogether():
             # Bound arms
             if self.armsBehindBackPose():
-
                 if self.hasBra:
                     self.modifyLayer(2, 3)
                 else:
                     self.modifyLayer(2, 2)
-
                 self.modifyLayer(6, -1)
             else:
                 self.modifyLayer(2, 1)
@@ -299,9 +304,9 @@ class LilyUrban(Character):
             if self.hasInner:
                 if self.mummifiedMaterial() == "tape":
                     self.modifyLayer(11, -1)
-                elif self.mummifiedMaterial() == "web":
+                elif "web" in self.mummifiedMaterial():
                     self.modifyLayer(11, 4)
-                elif self.armsMaterial() == "web":
+                elif "web" in self.armsMaterial():
                     self.modifyLayer(11, 3)
                 elif self.armsMaterial() == "tape":
                     self.modifyLayer(11, 5)
@@ -311,14 +316,11 @@ class LilyUrban(Character):
                     self.modifyLayer(11, 2)
 
             if self.hasOuter:
-                if self.mummifiedMaterial() == "web":
+                if "web" in self.mummifiedMaterial():
                     self.modifyLayer(17, 5)
                 elif self.mummifiedMaterial() == "tape":
                     self.modifyLayer(17, -1)
-                elif (
-                    self.armsMaterial() == "web"
-                    or self.armsMaterial() == "tape"
-                ):
+                elif "web" in self.armsMaterial() or self.armsMaterial() == "tape":
                     if self.hasInner:
                         self.modifyLayer(15, 14)
                     elif self.hasPanties:
@@ -326,7 +328,7 @@ class LilyUrban(Character):
                     else:
                         self.modifyLayer(15, 12)
 
-                    if self.armsMaterial() == "web":
+                    if "web" in self.armsMaterial():
                         if self.isGrounded():
                             self.modifyLayer(17, 3)
                         else:
@@ -351,10 +353,7 @@ class LilyUrban(Character):
                     else:
                         self.modifyLayer(17, 1)
 
-            if (
-                self.mummifiedMaterial() == "web"
-                and not self.legsAreInvisible()
-            ):
+            if self.mummifiedMaterial() == "web" and not self.legsAreInvisible():
                 if self.isGrounded():
                     if self.hasBra:
                         self.modifyLayer(19, 7)
@@ -365,10 +364,21 @@ class LilyUrban(Character):
                         self.modifyLayer(19, 9)
                     else:
                         self.modifyLayer(19, 8)
-            elif (
-                self.mummifiedMaterial() == "tape"
-                and not self.legsAreInvisible()
-            ):
+            elif self.mummifiedMaterial() == "aphro_web" and not self.legsAreInvisible():
+                if self.isGrounded():
+                    if self.hasBra:
+                        self.modifyLayer(19, 18)
+                    else:
+                        self.modifyLayer(19, 17)
+                else:
+                    if self.hasBra:
+                        self.modifyLayer(19, 20)
+                    else:
+                        if self.nippleMaterial() == "nipple_clamps":
+                            self.modifyLayer(19, 21)
+                        else:
+                            self.modifyLayer(19, 19)
+            elif self.mummifiedMaterial() == "tape" and not self.legsAreInvisible():
                 if self.isGrounded():
                     self.modifyLayer(19, 11)
                 else:
@@ -384,6 +394,14 @@ class LilyUrban(Character):
                     self.modifyLayer(19, 5)
                 else:
                     self.modifyLayer(19, 4)
+            elif self.armsMaterial() == "aphro_web":
+                if self.hasBra:
+                    self.modifyLayer(19, 16)
+                else:
+                    if self.nippleMaterial() == "nipple_clamps":
+                        self.modifyLayer(19, 22)
+                    else:
+                        self.modifyLayer(19, 15)
             elif self.armsMaterial() == "tape":
                 if self.hasOuter:
                     self.modifyLayer(19, 14)
@@ -393,8 +411,10 @@ class LilyUrban(Character):
                     self.modifyLayer(19, 14)
                 else:
                     self.modifyLayer(19, 12)
+            elif self.armsMaterial() == "glow":
+                self.modifyLayer(19, 23)
 
-            if self.mittensMaterial() == "leather_binder":
+            if self.mittensMaterial() == "leather_binder" and not self.armsBehindBackPose():
                 self.modifyLayer(10, 0)
         else:
             # Free arms
@@ -415,6 +435,7 @@ class LilyUrban(Character):
                         self.modifyLayer(15, 0)  # TODO: missing 3 here
                     elif self.hasBra and self.hasPanties:
                         self.modifyLayer(15, 11)
+
                 self.modifyLayer(17, 0)
         # endregion
 
@@ -427,7 +448,7 @@ class LilyUrban(Character):
         if self.hasOuter and not self.hasInner and self.armsAreTogether() and not self.isGrounded():
             if self.isFullyMummified():
                 pass
-            elif self.armsMaterial() == "web" or self.armsMaterial() == "tape":
+            elif "web" in self.armsMaterial() or self.armsMaterial() == "tape":
                 self.modifyLayer(16, 1)
             else:
                 self.modifyLayer(16, 0)
@@ -468,6 +489,11 @@ class LilyUrban(Character):
                 self.modifyLayer(31, 6)
             else:
                 self.modifyLayer(31, 5)
+        elif self.mouthMaterial() == "aphro_web":
+            if self.mummifiedMaterial() == "aphro_web":
+                self.modifyLayer(31, 10)
+            else:
+                self.modifyLayer(31, 9)
         elif self.mouthMaterial() == "tape":
             if self.mummifiedMaterial() == "tape":
                 self.modifyLayer(31, 8)
@@ -487,7 +513,9 @@ class LilyUrban(Character):
                 self.modifyLayer(32, 3)
 
         self.modifyLayer(33, self.eyebrowsIndex - 1)
+
         if not self.isEyesBound():
+            # EYES IGNORE FOR NOW
             self.modifyLayer(34, self.eyesIndex - 1)
 
         if self.eyesMaterial() == "cloth":
@@ -498,6 +526,8 @@ class LilyUrban(Character):
             self.modifyLayer(35, 2)
         elif self.eyesMaterial() == "web":
             self.modifyLayer(35, 3)
+        elif self.eyesMaterial() == "aphro_web":
+            self.modifyLayer(35, 4)
 
         if self.hasBlush:
             self.modifyLayer(36, 0)

@@ -96,8 +96,13 @@
             "BELL",
             "RUNE"
         ],
+        "nippleMaterial": [
+            "NONE",
+            "NIPPLE_CLAMPS"
+        ],
         "armsMaterial": [
             "NONE",
+            "GLOW",
             "PARTIAL_TAPE_MUMMY",
             "REGEN_VINES",
             "ROPE",
@@ -107,6 +112,7 @@
         ],
         "legsMaterial": [
             "NONE",
+            "GLOW",
             "REGEN_VINES",
             "ROPE",
             "TAPE",
@@ -115,6 +121,7 @@
         ],
         "crotchRopeMaterial": [
             "NONE",
+            "GLOW",
             "REGEN_VINES",
             "ROPE",
             "VINES"
@@ -218,6 +225,71 @@
             "WEB"
         ]
     },
+    "LilyEvent4": {
+        "armsMaterial": [
+            "NONE",
+            "STRAITJACKET"
+        ]
+    },
+    "LilyEvent5": {
+        "mummifiedMaterial": [
+            "NONE",
+            "TAPE",
+            "WEB"
+        ],
+        "eyesMaterial": [
+            "NONE",
+            "CLOTH",
+            "LEATHER_BLINDFOLD",
+            "ROPE",
+            "TAPE_HOOD",
+            "WEB"
+        ],
+        "mouthMaterial": [
+            "NONE",
+            "BALL",
+            "BALL_BIG",
+            "BALL_CLOTH",
+            "BALL_STRICT",
+            "BALL_TAPE",
+            "BALL_TAPE_CLOTH",
+            "CLOTH",
+            "CLOTH_TAPE",
+            "ROPE",
+            "TAPE",
+            "WEB"
+        ],
+        "collarMaterial": [
+            "NONE",
+            "BELL",
+            "RUNE"
+        ],
+        "nippleMaterial": [
+            "NONE",
+            "NIPPLE_CLAMPS",
+            "NIPPLE_VIBE"
+        ],
+        "intimateMaterial": [
+            "NONE",
+            "BULLET_VIBE"
+        ],
+        "grabberConfig": [
+            "NONE",
+            "POLE"
+        ]
+    },
+    "LilyEventX": {
+        "mouthMaterial": [
+            "NONE",
+            "BALL",
+            "BALL_STRICT",
+            "BIT_GAG"
+        ],
+        "nippleMaterial": [
+            "NONE",
+            "NIPPLE_CLAMPS"
+        ]
+    },
     "LilySports": {
         "mummifiedMaterial": [
             "NONE",
@@ -282,7 +354,7 @@
             "SANDBAG"
         ]
     },
-    "LilyUrban": {
+    "LilySwim": {
         "mummifiedMaterial": [
             "NONE",
             "TAPE",
@@ -293,7 +365,6 @@
             "BALL",
             "BALL_BIG",
             "BALL_STRICT",
-            "BIT_GAG",
             "CLOTH",
             "ROPE",
             "TAPE",
@@ -306,6 +377,59 @@
             "ROPE",
             "WEB"
         ],
+        "armsMaterial": [
+            "NONE",
+            "GLOW",
+            "REGEN_VINES",
+            "ROPE",
+            "TAPE",
+            "VINES",
+            "WEB"
+        ],
+        "legsMaterial": [
+            "NONE",
+            "GLOW",
+            "REGEN_VINES",
+            "ROPE",
+            "TAPE",
+            "VINES",
+            "WEB"
+        ],
+        "crotchRopeMaterial": [
+            "NONE",
+            "GLOW",
+            "REGEN_VINES",
+            "ROPE",
+            "VINES"
+        ]
+    },
+    "LilyUrban": {
+        "mummifiedMaterial": [
+            "NONE",
+            "APHRO_WEB",
+            "TAPE",
+            "WEB"
+        ],
+        "mouthMaterial": [
+            "NONE",
+            "APHRO_WEB",
+            "BALL",
+            "BALL_BIG",
+            "BALL_STRICT",
+            "BIT_GAG",
+            "CLOTH",
+            "ROPE",
+            "TAPE",
+            "WEB"
+        ],
+        "eyesMaterial": [
+            "NONE",
+            "APHRO_WEB",
+            "CLOTH",
+            "LEATHER_BLINDFOLD",
+            "ROPE",
+            "WEB"
+        ],
         "collarMaterial": [
             "NONE",
             "BELL",
@@ -313,6 +437,8 @@
         ],
         "armsMaterial": [
             "NONE",
+            "APHRO_WEB",
+            "GLOW",
             "REGEN_VINES",
             "ROPE",
             "TAPE",
@@ -329,6 +455,8 @@
         ],
         "legsMaterial": [
             "NONE",
+            "APHRO_WEB",
+            "GLOW",
             "REGEN_VINES",
             "ROPE",
             "TAPE",
@@ -337,6 +465,7 @@
         ],
         "crotchRopeMaterial": [
             "NONE",
+            "GLOW",
             "REGEN_VINES",
             "ROPE",
             "VINES"

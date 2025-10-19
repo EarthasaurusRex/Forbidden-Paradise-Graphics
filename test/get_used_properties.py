@@ -1,7 +1,7 @@
 import re
 import json
 
-with open("src/Forbidden_Paradise_Graphics/characters/secunda.py", 'r') as f:
+with open("src/Forbidden_Paradise_Graphics/characters/lily_swim.py", 'r') as f:
     content = f.read()
 
     materials = set()
